@@ -1,32 +1,42 @@
-import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 
-class Home extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return(
-            <div className="container-fluid">
-                <div className="row">
-                    <div className="col text-center grid">
-                        <h4>Workout Name</h4>
+export default function Home() {
+    return(
+        <>
+            <div className="container-fluid grid">
+                <div className="row mt-1 mx-1">
+                    <div className="col text-center my-auto cat">
+                        <h5>Name</h5>
                     </div>
-                    <div className="col text-center grid">
-                        <h4>Sets, Reps, Weight / Duration or Distance</h4>
+                    <div className="col text-center cat">
+                        <h5>Details</h5>
                     </div>
-                    <div className="col text-center grid">
-                        <h4>Intensity 1-10</h4>
+                    <div className="col text-center my-auto cat">
+                        <h5>Intensity</h5>
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col home-grid" draggable="true">
-                        This is where the exercises component will render
+                    <div className="col" draggable="true">
+                        
                     </div>
                 </div>
             </div>
-        );
-    }
+            <footer className="jumbotron-fluid">
+                <div className="row mt-4">
+                    <div className="col text-center">
+                        <button className="btn btn-lg btn-outline-secondary shadow">
+                            Archive Log
+                        </button>
+                    </div>
+                    <div className="col text-center">
+                        <NavLink to="/arsenal">
+                            <button className="btn btn-lg btn-outline-secondary shadow">
+                                Arsenal
+                            </button>
+                        </NavLink>
+                    </div>
+                </div>
+            </footer>
+        </>
+    );
 }
-
-export default Home;

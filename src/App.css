@@ -1,15 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Encode+Sans+SC:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+    body {
+        background-color: #22242e;
+        color: #ed674e;
+        font-family: 'Noto Sans KR', sans-serif;;
+    }
 
+    .btn {
+        border-radius: 0;
+        padding: 0.2em;
+    }
 
-.grid {
-    border: 2px solid black;
-    border-top: none;
+    .grid {
+        border: 0.2em solid #a54636;
+        border-bottom: none;
+    }
+
+    .grid .cat {
+        border-bottom: 0.2em solid #a5473688;
+    }
+
+    .grid .col {
+        border-right: none;
+        border-left: none;
+    }
+
+  hr {
+      margin: 0.2em;
+      height: 2px;
   }
 
   li {
       list-style: none;
   }
 
-  header {
-      background-color: #1c3803;
-      color: white;
+  .links {
+      text-decoration: none;
+      color: #ed674e;
   }
+
+  .links:hover {
+      color: #dcc371;
+  }
+
+  .title, .btn {
+      color: #dcc371;
+      font-family: 'Encode Sans SC', sans-serif;
+  }
+

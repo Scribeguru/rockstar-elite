@@ -1,13 +1,8 @@
-import React from 'react';
 
-function About() {
+export default function About() {
     return(
-        <div className="container">
-            <div className="row">
-                <div className="col">
-                    This is the place where you learn about the origins of Rockstar Elite, as well as what it was designed for.
-                </div>
-            </div>
+        <div className="text-center mx-2">
+            Rockstar Elite is a personal workout assembling application. You can create, edit, store, and delete your exercises and workouts, as well as track your weight over time
         </div>
     );
 }

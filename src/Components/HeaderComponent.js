@@ -1,31 +1,30 @@
 import { NavLink } from 'react-router-dom';
+import { Jumbotron, Container, Row, Col } from 'reactstrap';
 
 export default function Header() {
     return(
-        <header className="jumbotron jumbotron-fluid">
-            <div className="container mb-4">
-                <div className="row pt-2">
-                    <div className="col-sm-3 text-center">
+        <Jumbotron fluid>
+            <Container className="mb-4">
+                <Row className="pt-2">
+                     <Col sm="3" className="text-center">
                         <h4>MM/DD/YYYY</h4>
-                    </div>
-                    <div className="col-order-first col-sm-6 text-center">
+                    </Col>
+                     <Col xs="order-first text-center" sm="6">
                         <h1><NavLink to="/" className="links title">Rockstar Elite</NavLink></h1>
-                    </div>
-                    <div className="col-sm-3 text-center">
+                    </Col>
+                    <Col sm="3" className="text-center">
                         <h4>Last Weigh-in</h4>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col text-center">
+                    </Col>
+                </Row>
+                <Row>
+                    <Col className="text-center">
                         <h5>Archive</h5>
-                    </div>
-                    <div className="col text-center">
-                        <NavLink to="/about" className="links">
-                            <h5>About</h5>
-                        </NavLink>
-                    </div>
-                </div>
-            </div>
-        </header>
+                    </Col>
+                    <Col className="text-center">
+                            <h5><NavLink to="/about" className="links">About</NavLink></h5>
+                    </Col>
+                </Row>
+            </Container>
+        </Jumbotron>
     );
 }

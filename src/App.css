@@ -1,14 +1,53 @@
 @import url('https://fonts.googleapis.com/css2?family=Encode+Sans+SC:wght@400&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap');
     body {
         background-color: #22242e;
         color: #ed674e;
-        font-family: 'Noto Sans KR', sans-serif;;
+        font-family: 'Nunito', sans-serif;
+        overflow-x: hidden;
     }
 
     .btn {
         border-radius: 0;
-        padding: 0.2em;
+        padding: 0.em;
+        color: #dcc371;
+        font-family: 'Encode Sans SC', sans-serif;
+        text-align: center;
+    }
+
+    .btn:hover {
+        color: #ed674e;
+    }
+
+    .close {
+        background-color: #7c868f;
+        border-style: none;
+        padding: 6px 12px;
+        opacity: 1;
+        font-size: 0.9em;
+    }
+
+    .close:hover {
+        background-color: #929ea8;
+        color: black;
+    }
+
+    .form-control {
+        appearance: inherit;
+        background-color: #22242e;
+        border-color: #a54636;
+        border-radius: 0;
+        font-family: 'Nunito', sans-serif;
+        text-align: center;
+        color: #ed674e;
+    }
+
+
+    .form-control:focus {
+        background-color: #22242e;
+        color: #ed674e;
+        border-color: #ed674e;
+        box-shadow: none;
     }
 
     .grid {
@@ -27,7 +66,6 @@
 
   hr {
       margin: 0.2em;
-      height: 2px;
   }
 
   li {
@@ -43,8 +81,24 @@
       color: #dcc371;
   }
 
-  .title, .btn {
-      color: #dcc371;
-      font-family: 'Encode Sans SC', sans-serif;
+  .modal-content {
+      background-color: #22242e;
+      outline: 1px solid #dcc371;
+      border-radius: 0;
   }
+
+  .modal-header {
+      border-bottom: 1px solid #dcc371;
+  }
+
+  .title {
+    color: #dcc371;
+    font-family: 'Encode Sans SC', sans-serif;
+    text-align: center;
+  }
+
+  
+
+
+
 

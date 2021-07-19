@@ -1,42 +1,43 @@
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { Jumbotron, Container, Row, Col, Button } from 'reactstrap';
 
 export default function Home() {
     return(
         <>
-            <div className="container-fluid grid">
-                <div className="row mt-1 mx-1">
-                    <div className="col text-center my-auto cat">
+            <Container fluid={true} className="grid">
+                <Row className="mt-1">
+                    <Col className="mx-sm-1 text-center cat">
                         <h5>Name</h5>
-                    </div>
-                    <div className="col text-center cat">
+                    </Col>
+                    <Col className="mx-sm-1 text-center cat">
                         <h5>Details</h5>
-                    </div>
-                    <div className="col text-center my-auto cat">
+                    </Col>
+                    <Col className="mx-sm-1 text-center cat">
                         <h5>Intensity</h5>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col" draggable="true">
-                        
-                    </div>
-                </div>
-            </div>
-            <footer className="jumbotron-fluid">
-                <div className="row mt-4">
-                    <div className="col text-center">
-                        <button className="btn btn-lg btn-outline-secondary shadow">
+                    </Col>
+                </Row>
+                <Row>
+                    <Col draggable={true}>
+                        exercise renders here
+                    </Col>
+                </Row>
+            </Container>
+            <Jumbotron fluid={true}>
+                <Row className="mt-4">
+                    <Col className="title">
+                         <Button className="shadow-none" size="lg" color="secondary" outline>
                             Archive Log
-                        </button>
-                    </div>
-                    <div className="col text-center">
-                        <NavLink to="/arsenal">
-                            <button className="btn btn-lg btn-outline-secondary shadow">
+                        </Button>
+                    </Col>
+                    <Col className="text-center">
+                        <Link to="/arsenal">
+                            <Button className="shadow-none" size="lg" color="secondary" outline>
                                 Arsenal
-                            </button>
-                        </NavLink>
-                    </div>
-                </div>
-            </footer>
+                            </Button>
+                        </Link>
+                    </Col>
+                </Row>
+            </Jumbotron>
         </>
     );
 }

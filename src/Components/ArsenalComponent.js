@@ -17,12 +17,6 @@ export default function Arsenal({exercises, addExercises}) {
         const nameInput = e.target[0];
         const sType = e.target[1];
         const cType = e.target[2];
-        // if (sType.checked) {
-        //     cType.checked = false;
-        // }
-        // if (cType.checked) {
-        //     sType.checked = false;
-        // this is supposed to be a switch to check and uncheck the exercise type form controls based on focus}
         console.log(nameInput.value, sType.checked, cType.checked);
     };
 
@@ -87,13 +81,11 @@ export default function Arsenal({exercises, addExercises}) {
                                     <Row>
                                         <Col>
                                             <FormGroup>
-                                                <Label htmlFor="exerciseTypes" className="mt-3 mb-2 title">Assign Type:</Label>
-                                                <Label htmlFor="strengthExercise" hidden />
-                                                <Input type="button" value="Strength" className="form-control mb-2" id="strengthExercise" name="strengthExercise" onFocus={e => {e.target.checked = true}} />
+                                                <Label htmlFor="exerciseType" className="mt-3 mb-2 title">Assign Type:</Label>
+                                                <Input type="button" value="Strength" className="form-control mb-2" id="strengthExercise" name="exerciseType" onFocus={e => {e.target.checked = true; e.target.form[2].checked = false}} />
                                                 <span>or</span>
-                                                <Label htmlFor="cardioExercise" hidden />
                                                 <Input type="button" value="Cardio" className="form-control mt-2" id="cardioExercise" 
-                                                name="cardioExercise" onFocus={e => {e.target.checked = true}} />
+                                                name="exerciseType" onFocus={e => {e.target.checked = true; e.target.form[1].checked = false;}} />
                                             </FormGroup>
                                             <Button type="submit" className="mt-5 mb-3 shadow-none" size="lg" color="secondary" outline>
                                             Finish

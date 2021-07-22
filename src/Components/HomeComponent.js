@@ -25,7 +25,7 @@ export default function Home() {
             <Jumbotron fluid={true}>
                 <Row className="mt-4">
                     <Col className="title">
-                         <Button className="shadow-none" size="lg" color="secondary" outline>
+                         <Button className="shadow-none text-nowrap" size="lg" color="secondary" outline>
                             Archive Log
                         </Button>
                     </Col>

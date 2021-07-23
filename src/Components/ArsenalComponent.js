@@ -1,24 +1,28 @@
-import { NavLink } from 'react-router-dom';
+import React from 'react';
 import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import { Jumbotron, Container, Col, Row, Button, Modal, ModalHeader, ModalBody, Form, FormGroup, Label, Input } from 'reactstrap';
 
-export default function Arsenal({exercises, addExercises}) {
+export default function Arsenal() {
 
     const [isModalOpen, modalSwitch] = useState(false);
-    const [exerciseName, setExerciseName] = useState(null);
-    const [exerciseType, setExerciseType] = useState(null);
+    const [exerciseName, setExerciseName] = useState("");
+    const [exerciseType, setExerciseType] = useState("");
+    const [exercises, setNewExercises] = useState([]);
 
     function toggleModal() {
         modalSwitch((isModalOpen) => isModalOpen = !isModalOpen);
-    };
+    }
 
     function handleSubmit(e) {
         e.preventDefault();
-        const nameInput = e.target[0];
-        const sType = e.target[1];
-        const cType = e.target[2];
-        console.log(nameInput.value, sType.checked, cType.checked);
-    };
+        setExerciseName(e.target[0].value);
+        (e.target[1].checked) ? setExerciseType(e.target[1].value) : setExerciseType(e.target[2].value);
+        toggleModal();
+        console.log(exerciseName, exerciseType);
+    }
+
+
 
     return(
         <>
@@ -30,7 +34,8 @@ export default function Arsenal({exercises, addExercises}) {
                 </Row>
                 <Row>
                     <Col className="text-center my-auto mb-2">
-                        It is in this space entire workouts will be saved
+                        It is in this space entire workouts will be saved. Props will probably need to be drilled through here to
+                        the workout list component, since the parameters of the workout are to be defined in home component
                     </Col>
                 </Row>
                 <hr />
@@ -42,10 +47,23 @@ export default function Arsenal({exercises, addExercises}) {
                 <Row>
                     <Col className="mx-sm-2 text-center cat">
                         <h5>Strength</h5>
+                        <Row>
+                            <Col>
+                                <div>
+                                    
+                                </div>
+                            </Col>
+                        </Row>
                     </Col>
-
                     <Col className="mx-sm-2 text-center cat">
                         <h5>Cardio</h5>
+                        <Row>
+                            <Col>
+                                <div>
+                                
+                                </div>
+                            </Col>
+                        </Row>
                     </Col>
                 </Row>
             </Container>
@@ -68,13 +86,14 @@ export default function Arsenal({exercises, addExercises}) {
                             <h4 className="title">Forge Menu</h4>
                         </ModalHeader>
                         <ModalBody className="text-center">
-                            <Form onSubmit={e => {handleSubmit(e)}} autoComplete="off">
+                            <Form onSubmit={e => (handleSubmit(e))} autoComplete="off">
                                 <Container form fluid={true}>
                                     <Row>
                                         <Col>
                                             <FormGroup>
                                                 <Label className="mt-3 mb-2 title" htmlFor="exerciseName">Name Your Exercise:</Label>
-                                                <Input type="text" className="form-control" name="exerciseName" id="exerciseName" required />
+                                                <Input type="text" className="form-control" name="exerciseName" id="exerciseName" required
+                                                 />
                                             </FormGroup>
                                         </Col>
                                     </Row>

@@ -1,10 +1,12 @@
 import React from 'react';
 import { useState } from 'react';
 
-function Strength(props) {
+export default function Strength({name}) {
 
     return(
         // this will contain the name, description, means to edit, delete, and select for execution
-        <div />
+        <div>
+            {name}
+        </div>
     );
 }

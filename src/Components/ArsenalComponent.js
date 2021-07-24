@@ -2,27 +2,47 @@ import React from 'react';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Jumbotron, Container, Col, Row, Button, Modal, ModalHeader, ModalBody, Form, FormGroup, Label, Input } from 'reactstrap';
+import Strength from './StrengthComponent';
+import Cardio from './CardioComponent';
 
 export default function Arsenal() {
 
     const [isModalOpen, modalSwitch] = useState(false);
-    const [exerciseName, setExerciseName] = useState("");
-    const [exerciseType, setExerciseType] = useState("");
-    const [exercises, setNewExercises] = useState([]);
+    const [exerciseArr, setNewExercise] = useState([{
+        eName: "",
+        eType: ""
+    }]);
 
-    function toggleModal() {
+    function toggleModal() { 
         modalSwitch((isModalOpen) => isModalOpen = !isModalOpen);
     }
 
     function handleSubmit(e) {
         e.preventDefault();
-        setExerciseName(e.target[0].value);
-        (e.target[1].checked) ? setExerciseType(e.target[1].value) : setExerciseType(e.target[2].value);
+        const newName = e.target[0].value;
+        const newType = (e.target[1].checked) ?
+        e.target[1].value :
+        e.target[2].checked ?
+        e.target[2].value : alert('All new exercises must have an assigned Type.');
+        setNewExercise(exerciseArr => [{
+            eName: newName,
+            eType: newType
+        }, ...exerciseArr]);
         toggleModal();
-        console.log(exerciseName, exerciseType);
+        console.log(exerciseArr);
     }
 
+    function parseStrength(type) {
+        if (type === "Strength") {
+            return <Strength name={exerciseArr.eName} />
+        };
+    }
 
+    function parseCardio(type) {
+        if (type === "Cardio") {
+            return <Cardio name={exerciseArr.eName} />
+        };
+    }
 
     return(
         <>
@@ -39,7 +59,7 @@ export default function Arsenal() {
                     </Col>
                 </Row>
                 <hr />
-                <Row className="mt-1 mx-sm-2">
+                <Row className="mt-1 mx-sm-2"> 
                     <Col className="text-center cat">
                         <h5>Your Exercises</h5>
                     </Col>
@@ -50,7 +70,7 @@ export default function Arsenal() {
                         <Row>
                             <Col>
                                 <div>
-                                    
+                                    {parseStrength(exerciseArr[0].eType)}
                                 </div>
                             </Col>
                         </Row>
@@ -60,7 +80,7 @@ export default function Arsenal() {
                         <Row>
                             <Col>
                                 <div>
-                                
+                                    {parseCardio(exerciseArr[0].eType)}
                                 </div>
                             </Col>
                         </Row>

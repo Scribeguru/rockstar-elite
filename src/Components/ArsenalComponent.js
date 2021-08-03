@@ -8,10 +8,7 @@ import Cardio from './CardioComponent';
 export default function Arsenal() {
 
     const [isModalOpen, modalSwitch] = useState(false);
-    const [exerciseArr, setNewExercise] = useState([{
-        eName: "",
-        eType: ""
-    }]);
+    const [exerciseArr, setNewExercise] = useState([]);
 
     function toggleModal() { 
         modalSwitch((isModalOpen) => isModalOpen = !isModalOpen);
@@ -19,29 +16,20 @@ export default function Arsenal() {
 
     function handleSubmit(e) {
         e.preventDefault();
-        const newName = e.target[0].value;
-        const newType = (e.target[1].checked) ?
+        const eName = e.target[0].value;
+        const eType = e.target[1].checked ?
         e.target[1].value :
         e.target[2].checked ?
         e.target[2].value : alert('All new exercises must have an assigned Type.');
         setNewExercise(exerciseArr => [{
-            eName: newName,
-            eType: newType
+            eName,
+            eType
         }, ...exerciseArr]);
         toggleModal();
-        console.log(exerciseArr);
     }
 
-    function parseStrength(type) {
-        if (type === "Strength") {
-            return <Strength name={exerciseArr.eName} />
-        };
-    }
-
-    function parseCardio(type) {
-        if (type === "Cardio") {
-            return <Cardio name={exerciseArr.eName} />
-        };
+    function parseType(strength, cardio) {
+        return strength ? strength : cardio ? cardio : null;
     }
 
     return(
@@ -54,8 +42,7 @@ export default function Arsenal() {
                 </Row>
                 <Row>
                     <Col className="text-center my-auto mb-2">
-                        It is in this space entire workouts will be saved. Props will probably need to be drilled through here to
-                        the workout list component, since the parameters of the workout are to be defined in home component
+                        ~~Workouts~~
                     </Col>
                 </Row>
                 <hr />
@@ -65,13 +52,11 @@ export default function Arsenal() {
                     </Col>
                 </Row>
                 <Row>
-                    <Col className="mx-sm-2 text-center cat">
-                        <h5>Strength</h5>
+                    <Col className="mx-sm-2 cat">
+                        <h5 className="text-center">Strength</h5>
                         <Row>
                             <Col>
-                                <div>
-                                    {parseStrength(exerciseArr[0].eType)}
-                                </div>
+                                <Strength sArray={parseType(exerciseArr.filter(exercises => exercises.eType === "Strength"), null)} />
                             </Col>
                         </Row>
                     </Col>
@@ -79,9 +64,7 @@ export default function Arsenal() {
                         <h5>Cardio</h5>
                         <Row>
                             <Col>
-                                <div>
-                                    {parseCardio(exerciseArr[0].eType)}
-                                </div>
+                                <Cardio cArray={parseType(null, exerciseArr.filter(exercises => exercises.eType === "Cardio"))} />
                             </Col>
                         </Row>
                     </Col>
@@ -95,7 +78,7 @@ export default function Arsenal() {
                         </Button>
                     </Col>
                     <Col className="text-center">
-                        <NavLink to="/">
+                        <NavLink to="/"> {/*<-- exercises for execution passed through here? */}
                             <Button className="shadow-none" size="lg" color="secondary" outline >
                                 Execute
                             </Button>
@@ -121,7 +104,8 @@ export default function Arsenal() {
                                         <Col>
                                             <FormGroup>
                                                 <Label htmlFor="exerciseType" className="mt-3 mb-2 title">Assign Type:</Label>
-                                                <Input type="button" value="Strength" className="form-control mb-2" id="strengthExercise" name="exerciseType" onFocus={e => {e.target.checked = true; e.target.form[2].checked = false}} />
+                                                <Input type="button" value="Strength" className="form-control mb-2" id="strengthExercise"
+                                                name="exerciseType" onFocus={e => {e.target.checked = true; e.target.form[2].checked = false}} />
                                                 <span>or</span>
                                                 <Input type="button" value="Cardio" className="form-control mt-2" id="cardioExercise" 
                                                 name="exerciseType" onFocus={e => {e.target.checked = true; e.target.form[1].checked = false;}} />

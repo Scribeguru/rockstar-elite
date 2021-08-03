@@ -1,12 +1,14 @@
 import React from 'react';
 import { useState } from 'react';
 
-export default function Strength({name}) {
-
+export default function Cardio({cArray}) {
     return(
-        // this will contain the name, description, means to edit, delete, and select for execution
-        <div>
-            {name}
-        </div>
+        cArray.map((exercise) => {
+            return(
+                <div>
+                    {exercise.eName}
+                </div>
+            );
+        })
     );
 }

@@ -1,12 +1,14 @@
 import React from 'react';
 import { useState } from 'react';
 
-export default function Strength({name}) {
-
+export default function Strength({sArray}) {
     return(
-        // this will contain the name, description, means to edit, delete, and select for execution
-        <div>
-            {name}
-        </div>
+        sArray.map((exercise) => {
+        return(
+            <div>
+                {exercise.eName}
+            </div>
+        );
+    })
     );
 }

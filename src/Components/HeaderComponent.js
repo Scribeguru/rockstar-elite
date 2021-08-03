@@ -21,7 +21,7 @@ export default function Header() {
                         <h5>Archive</h5>
                     </Col>
                     <Col className="text-center">
-                            <h5><NavLink to="/about" className="links">About</NavLink></h5>
+                        <h5><NavLink to="/about" className="links">About</NavLink></h5>
                     </Col>
                 </Row>
             </Container>

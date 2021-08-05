@@ -32,9 +32,32 @@
         color: black;
     }
 
-    /* .exercise {
+    .exercise-name {
+        font-size: 1.2em;
+        color: #dcc371;
+        cursor: pointer;
+    }
 
-    } */
+    .exercise-name:hover {
+        font-weight: bold;
+    }
+
+    .exercise-selected {
+        font-size: 1.2em;
+        color: #dcc371;
+        cursor: pointer;
+        font-weight: bold;
+        font-style: italic;
+    }
+
+    .exercise-option {
+        font-size: 1.5em;
+        cursor: pointer;
+    }
+
+    .exercise-option:hover {
+        color: #eb9181;
+    }
 
     .form-control {
         appearance: inherit;

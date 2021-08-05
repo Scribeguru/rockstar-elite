@@ -2,13 +2,12 @@ import React from 'react';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Jumbotron, Container, Col, Row, Button, Modal, ModalHeader, ModalBody, Form, FormGroup, Label, Input } from 'reactstrap';
-import Strength from './StrengthComponent';
-import Cardio from './CardioComponent';
+import Exercise from './ExerciseComponent';
 
 export default function Arsenal() {
 
     const [isModalOpen, modalSwitch] = useState(false);
-    const [exerciseArr, setNewExercise] = useState([]);
+    const [exerciseArr, setExerciseData] = useState([]);
 
     function toggleModal() { 
         modalSwitch((isModalOpen) => isModalOpen = !isModalOpen);
@@ -21,9 +20,10 @@ export default function Arsenal() {
         e.target[1].value :
         e.target[2].checked ?
         e.target[2].value : alert('All new exercises must have an assigned Type.');
-        setNewExercise(exerciseArr => [{
+        setExerciseData(exerciseArr => [{
+            id: exerciseArr.length.toString(),
             eName,
-            eType
+            eType,
         }, ...exerciseArr]);
         toggleModal();
     }
@@ -31,6 +31,9 @@ export default function Arsenal() {
     function parseType(strength, cardio) {
         return strength ? strength : cardio ? cardio : null;
     }
+
+    const sArray= parseType(exerciseArr.filter(exercises => exercises.eType === "Strength"), null);
+    const cArray= parseType(null, exerciseArr.filter(exercises => exercises.eType === "Cardio"));
 
     return(
         <>
@@ -42,7 +45,7 @@ export default function Arsenal() {
                 </Row>
                 <Row>
                     <Col className="text-center my-auto mb-2">
-                        ~~Workouts~~
+                        ~~Workouts Here~~
                     </Col>
                 </Row>
                 <hr />
@@ -52,21 +55,21 @@ export default function Arsenal() {
                     </Col>
                 </Row>
                 <Row>
-                    <Col className="mx-sm-2 cat">
-                        <h5 className="text-center">Strength</h5>
-                        <Row>
-                            <Col>
-                                <Strength sArray={parseType(exerciseArr.filter(exercises => exercises.eType === "Strength"), null)} />
-                            </Col>
-                        </Row>
+                    <Col className="cat mb-3">
+                        <h5 className="text-center mb-0">Strength</h5>
+                        {sArray.map(exercise => {
+                            return(
+                                <Exercise exercise={exercise} />
+                            );
+                        })}
                     </Col>
-                    <Col className="mx-sm-2 text-center cat">
-                        <h5>Cardio</h5>
-                        <Row>
-                            <Col>
-                                <Cardio cArray={parseType(null, exerciseArr.filter(exercises => exercises.eType === "Cardio"))} />
-                            </Col>
-                        </Row>
+                    <Col className="cat mb-3">
+                        <h5 className="text-center mb-0">Cardio</h5>
+                        {cArray.map(exercise => {
+                            return(
+                                <Exercise exercise={exercise} />
+                            );
+                        })}
                     </Col>
                 </Row>
             </Container>

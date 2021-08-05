@@ -10,7 +10,7 @@ export default function Exercise({exercise}) {
     } 
 
     return(
-        <Row className="my-1" key={exercise.id}>
+        <Row className="my-2" key={exercise.id}>
             <Col sm="1" className="exercise-option">
                 <i className="fa fa-trash fa-sm" />
             </Col>

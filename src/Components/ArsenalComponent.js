@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Jumbotron, Container, Col, Row, Button, Modal, ModalHeader, ModalBody, Form, FormGroup, Label, Input } from 'reactstrap';
 import Exercise from './ExerciseComponent';
@@ -8,6 +8,17 @@ export default function Arsenal() {
 
     const [isModalOpen, modalSwitch] = useState(false);
     const [exerciseArr, setExerciseData] = useState([]);
+
+    useEffect(() => {
+        const data = localStorage.getItem('my-exercises');
+        if (data) {
+            setExerciseData(JSON.parse(data));
+        }
+    }, [])
+
+    useEffect(() => {
+        localStorage.setItem('my-exercises', JSON.stringify(exerciseArr))
+    });
 
     function toggleModal() { 
         modalSwitch((isModalOpen) => isModalOpen = !isModalOpen);

@@ -36,6 +36,10 @@
         color: black;
     }
 
+    .current-drag {
+        background-color: #595c6e;
+    }
+
     .exercise-name {
         font-size: 1.2em;
         color: #dcc371;
@@ -122,10 +126,24 @@
       border-bottom: 1px solid #dcc371;
   }
 
+  .selected {
+    font-size: 1.2em;
+    color: #dcc371;
+    cursor: default;
+    font-weight: bold;
+    user-select: none;
+    word-break: break-word;
+  }
+
+  .selected .form-control::placeholder {
+      text-align: left;
+  }
+
   .title {
     color: #dcc371;
     font-family: 'Encode Sans SC', sans-serif;
     text-align: center;
+    cursor: default;
   }
 
   

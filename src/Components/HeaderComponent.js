@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Jumbotron, Container, Row, Col } from 'reactstrap';
 
 export default function Header() {
@@ -10,10 +10,10 @@ export default function Header() {
                         <h4>MM/DD/YYYY</h4>
                     </Col>
                      <Col xs="order-first text-center" sm="6">
-                        <h1><NavLink to="/" className="links title">Rockstar Elite</NavLink></h1>
+                        <h1 className="title">Rockstar Elite</h1>
                     </Col>
                     <Col sm="3" className="text-center">
-                        <h4>Last Weigh-in</h4>
+                        <h4>Last Weigh-in:</h4>
                     </Col>
                 </Row>
                 <Row>
@@ -21,7 +21,7 @@ export default function Header() {
                         <h5>Archive</h5>
                     </Col>
                     <Col className="text-center">
-                        <h5><NavLink to="/about" className="links">About</NavLink></h5>
+                        <h5><Link to="/about" className="links">About</Link></h5>
                     </Col>
                 </Row>
             </Container>

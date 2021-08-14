@@ -1,26 +1,14 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Jumbotron, Container, Col, Row, Button, Modal, ModalHeader, ModalBody, Form, FormGroup, Label, Input } from 'reactstrap';
-import Exercise from './ExerciseComponent';
+import ExerciseList from './ExerciseListComponent';
 
-export default function Arsenal() {
+export default function Arsenal(props) {
 
     const [isModalOpen, modalSwitch] = useState(false);
-    const [exerciseArr, setExerciseData] = useState([]);
-
-    useEffect(() => {
-        const data = localStorage.getItem('my-exercises');
-        if (data) {
-            setExerciseData(JSON.parse(data));
-        }
-    }, [])
-
-    useEffect(() => {
-        localStorage.setItem('my-exercises', JSON.stringify(exerciseArr))
-    });
-
-    function toggleModal() { 
+    
+    function toggleModal() {
         modalSwitch((isModalOpen) => isModalOpen = !isModalOpen);
     }
 
@@ -31,11 +19,11 @@ export default function Arsenal() {
         e.target[1].value :
         e.target[2].checked ?
         e.target[2].value : alert('All new exercises must have an assigned Type.');
-        setExerciseData(exerciseArr => [{
-            id: exerciseArr.length.toString(),
+        props.setExerciseData(() => [{
+            id: props.exerciseArr.length.toString(),
             eName,
-            eType,
-        }, ...exerciseArr]);
+            eType
+        }, ...props.exerciseArr]);
         toggleModal();
     }
 
@@ -43,8 +31,8 @@ export default function Arsenal() {
         return strength ? strength : cardio ? cardio : null;
     }
 
-    const sArray= parseType(exerciseArr.filter(exercises => exercises.eType === "Strength"), null);
-    const cArray= parseType(null, exerciseArr.filter(exercises => exercises.eType === "Cardio"));
+    const sArray= parseType(props.exerciseArr.filter(exercises => exercises.eType === "Strength"), null);
+    const cArray= parseType(null, props.exerciseArr.filter(exercises => exercises.eType === "Cardio"));
 
     return(
         <>
@@ -70,15 +58,21 @@ export default function Arsenal() {
                         <h5 className="text-center mb-0">Strength</h5>
                         {sArray.map(exercise => {
                             return(
-                                <Exercise exercise={exercise} />
+                                <Row className="my-2" key={exercise.id}>
+                                    <ExerciseList
+                                        exercise={exercise}
+                                    />
+                                </Row>
                             );
                         })}
                     </Col>
                     <Col className="cat mb-3">
                         <h5 className="text-center mb-0">Cardio</h5>
                         {cArray.map(exercise => {
-                            return(
-                                <Exercise exercise={exercise} />
+                             return(
+                                <Row className="my-2" key={exercise.id}>
+                                    <ExerciseList exercise={exercise} />
+                                </Row>
                             );
                         })}
                     </Col>
@@ -86,17 +80,17 @@ export default function Arsenal() {
             </Container>
             <Jumbotron fluid={true}>
                 <Row className="mt-4">
-                    <Col className="text-center">
+                    <Col xs="12" className="text-center my-2">
                         <Button className="shadow-none" size="lg" color="secondary" outline onClick={toggleModal}>
                             Forge
                         </Button>
                     </Col>
-                    <Col className="text-center">
-                        <NavLink to="/"> {/*<-- exercises for execution passed through here? */}
+                    <Col className="text-center my-2">
+                        <Link to="/">
                             <Button className="shadow-none" size="lg" color="secondary" outline >
                                 Execute
                             </Button>
-                        </NavLink>
+                        </Link>
                     </Col>
                     <Modal isOpen={isModalOpen} toggle={toggleModal}>
                         <ModalHeader toggle={toggleModal}>
@@ -109,8 +103,7 @@ export default function Arsenal() {
                                         <Col>
                                             <FormGroup>
                                                 <Label className="mt-3 mb-2 title" htmlFor="exerciseName">Name Your Exercise:</Label>
-                                                <Input type="text" className="form-control" name="exerciseName" id="exerciseName" required
-                                                 />
+                                                <Input type="text" name="exerciseName" id="exerciseName" required />
                                             </FormGroup>
                                         </Col>
                                     </Row>
@@ -118,10 +111,10 @@ export default function Arsenal() {
                                         <Col>
                                             <FormGroup>
                                                 <Label htmlFor="exerciseType" className="mt-3 mb-2 title">Assign Type:</Label>
-                                                <Input type="button" value="Strength" className="form-control mb-2" id="strengthExercise"
+                                                <Input type="button" value="Strength" className="mb-2" id="strengthExercise"
                                                 name="exerciseType" onFocus={e => {e.target.checked = true; e.target.form[2].checked = false}} />
                                                 <span>or</span>
-                                                <Input type="button" value="Cardio" className="form-control mt-2" id="cardioExercise" 
+                                                <Input type="button" value="Cardio" className="mt-2" id="cardioExercise" 
                                                 name="exerciseType" onFocus={e => {e.target.checked = true; e.target.form[1].checked = false;}} />
                                             </FormGroup>
                                             <Button type="submit" className="mt-5 mb-3 shadow-none" size="lg" color="secondary" outline>

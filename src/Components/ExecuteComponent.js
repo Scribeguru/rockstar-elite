@@ -1,67 +1,80 @@
-import React, { useRef, useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Jumbotron, Container, Row, Col, Button } from 'reactstrap';
-import SelectedList from './SelectedList';
+import SelectedList from './SelectedListComponent';
 
 export default function Execute(props) {
 
-    const [selectArr, setList] = useState(props.exerciseArr.filter(exercise => exercise.selected))
+    const [selectArr, setList] = useState(props.exerciseArr.filter(exercise => exercise.selected));
     const [dragging, setdragging] = useState(false);
-
+    
     const dragExercise = useRef();
+    const dragTarget = useRef();
     const dragNode = useRef();
 
-    let newList = JSON.parse(JSON.stringify(selectArr));
-
     function moveItem(from, to) {
-        const f = newList.splice(from, 1)[0];
-        return newList.splice(to, 0, f);
+        let newList = JSON.parse(JSON.stringify(selectArr));
+        let f = newList.splice(from, 1)[0];
+        newList.splice(to, 0, f);
+        return setList(newList);
     }
 
     function handleDragStart(e, eIndex) {
-        console.log('drag starting..', eIndex);
         dragExercise.current = eIndex;
         dragNode.current = e.target;
         dragNode.current.addEventListener('dragend', handleDragEnd)
         setdragging(true);
     }
 
-    function handleDragEnter(e, eIndex) {
-        setList(prevList => moveItem(prevList[dragExercise.current], eIndex));
+    function handleDragEnter(eIndex) {
+        dragTarget.current = eIndex;
     }
 
-    function handleDragEnd(eIndex) {
-        console.log('Ending drag..')
+    function handleDragOver(e) {
+        e.preventDefault();
+    }
+
+    function handleDrop() {
+        moveItem(dragExercise.current, dragTarget.current);
+    }
+
+    function handleDragEnd() {
         setdragging(false);
-        dragNode.current.removeEventListener('dragend', handleDragEnd)
+        dragNode.current.removeEventListener('dragend', handleDragEnd);
         dragExercise.current = null;
         dragNode.current = null;
+        dragTarget.current = null;
     }
 
-    function getStyles(eIndex) {
-        if (dragExercise.current === eIndex) {
-            return 'current-drag selected';
-        }
-        return 'selected';
+    function setStyle(eIndex) {
+        if (eIndex === dragTarget.current) {
+            return 'drag-target selected';
+        } else return 'selected';
     }
 
+    let mappedSelect = selectArr.map((exercise, eIndex) => (
+        <Row
+            xs="12"
+            key={exercise.id}
+        >
+            <Col 
+                className={dragging ? setStyle(eIndex) : 'selected'}
+                draggable
+                onDragStart={(e) => {handleDragStart(e, eIndex)}}
+                onDragEnter={dragging ? (e) => handleDragEnter(eIndex) : null}
+                onDragOver={dragging ? (e) => handleDragOver(e) : null}
+                onDrop={() => {handleDrop()}}
+            >
+                <SelectedList exercise={exercise} />
+            </Col>
+        </Row>
+    )); 
+    //I need to package this data to be shipped off to HeaderComponent and/or ArsenalComponent when the corresponding buttons get pressed.
+    //When that happens, selectArr needs to be completely cleaned out.
     return(
         <>
             <Container fluid className="grid">
-                {selectArr.map((exercise, eIndex) => (
-                    <Row
-                        xs="12"
-                        className={`${dragging ? getStyles(eIndex) : 'selected'}`}
-                        key={exercise.id}
-                        draggable
-                        onDragStart={(e) => {handleDragStart(e, eIndex)}}
-                        onDragEnter={dragging ? (e) => handleDragEnter(e, eIndex) : null}
-                    >
-                        <Col>
-                            <SelectedList exercise={exercise} />
-                        </Col>
-                    </Row>
-                ))}
+               {mappedSelect}
             </Container>
             <Jumbotron fluid>
                 <Row className="mt-4">
@@ -76,7 +89,7 @@ export default function Execute(props) {
                         </Button>
                     </Col>
                     <Col xs="12" className="text-center my-2">
-                        <Link to="/arsenal">
+                        <Link to="/">
                             <Button className="shadow-none" size="lg" color="secondary" outline>
                                 Arsenal
                             </Button>

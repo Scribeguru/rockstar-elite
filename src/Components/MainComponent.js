@@ -1,4 +1,4 @@
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Header from './HeaderComponent';
 import Execute from './ExecuteComponent';
@@ -24,19 +24,18 @@ export default function Main() {
         <>
             <Header />
                 <Switch>
-                    <Route exact path="/"
-                    render={() => <Execute
-                        exerciseArr={exerciseArr}
-                        setExerciseData={setExerciseData}
-                    />} />
-
-                    <Route path="/arsenal"
+                <Route path="/arsenal"
                     render={() => <Arsenal 
                         exerciseArr={exerciseArr}
                         setExerciseData={setExerciseData}
                     />} />
-
+                    <Route path="/execute"
+                    render={() => <Execute
+                        exerciseArr={exerciseArr}
+                        setExerciseData={setExerciseData}
+                    />} />
                     <Route path="/about" component={About} />
+                    <Redirect to='/arsenal' />
                 </Switch>
         </>
     );

@@ -59,9 +59,7 @@ export default function Arsenal(props) {
                         {sArray.map(exercise => {
                             return(
                                 <Row className="my-2" key={exercise.id}>
-                                    <ExerciseList
-                                        exercise={exercise}
-                                    />
+                                    <ExerciseList exercise={exercise} />
                                 </Row>
                             );
                         })}
@@ -69,7 +67,7 @@ export default function Arsenal(props) {
                     <Col className="cat mb-3">
                         <h5 className="text-center mb-0">Cardio</h5>
                         {cArray.map(exercise => {
-                             return(
+                            return(
                                 <Row className="my-2" key={exercise.id}>
                                     <ExerciseList exercise={exercise} />
                                 </Row>
@@ -86,7 +84,7 @@ export default function Arsenal(props) {
                         </Button>
                     </Col>
                     <Col className="text-center my-2">
-                        <Link to="/">
+                        <Link to="/execute">
                             <Button className="shadow-none" size="lg" color="secondary" outline >
                                 Execute
                             </Button>

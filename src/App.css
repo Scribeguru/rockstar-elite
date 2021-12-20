@@ -36,8 +36,9 @@
         color: black;
     }
 
-    .current-drag {
-        background-color: #595c6e;
+    .drag-target {
+        border-top: 2px solid #595c6e;
+        cursor: pointer;
     }
 
     .exercise-name {
@@ -129,7 +130,6 @@
   .selected {
     font-size: 1.2em;
     color: #dcc371;
-    cursor: default;
     font-weight: bold;
     user-select: none;
     word-break: break-word;

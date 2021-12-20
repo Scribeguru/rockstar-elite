@@ -7,19 +7,19 @@ export default function About() {
         <Container>
             <Row>
                 <Col className="text-center">
-                    Rockstar Elite is a personal workout assembling application. You can create, edit, store, and delete your exercises and workouts, as well as track your weight over time.
+                    Rockstar Elite is a personal workout assembling application. You can create, edit, store, and delete your exercises and workouts — as well as track your weight over time.
                 </Col>
             </Row>
             <Row className="mt-5">
                 <Col className="text-center">
-                    <Link to="/">
+                    <Link to="/execute">
                         <Button className="shadow-none" size="lg" color="secondary" outline>
                             Execute
                         </Button>
                     </Link>
                 </Col>
                 <Col className="text-center">
-                    <Link to="/arsenal">
+                    <Link to="/">
                         <Button className="shadow-none" size="lg" color="secondary" outline>
                             Arsenal
                         </Button>

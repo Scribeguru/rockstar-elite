@@ -95,7 +95,7 @@ export default function Arsenal(props) {
 							<h4 className="title">Forge Menu</h4>
 						</ModalHeader>
 						<ModalBody className="text-center">
-							<Form onSubmit={e => (handleSubmit(e))} autoComplete="off">
+							<Form onSubmit={e => handleSubmit(e)} autoComplete="off">
 								<Container form fluid={true}>
 									<Row>
 										<Col>

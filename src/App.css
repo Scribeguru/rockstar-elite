@@ -157,6 +157,42 @@ text-align: center;
 cursor: default;
 }
 
+/* Loading Animation */
+
+  .stage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 2rem 0;
+    margin: 0 -5%;
+    overflow: hidden;
+  }
+
+  .dot-carousel {
+    position: relative;
+    left: -9999px;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: #b6372e;
+    color: #b6372e;
+    box-shadow: 9984px 0 0 0 #b6372e, 9999px 0 0 0 #b6372e, 10014px 0 0 0 #b6372e;
+    animation: dotCarousel 1.5s infinite linear;
+  }
+  
+  @keyframes dotCarousel {
+    0% {
+      box-shadow: 9984px 0 0 -1px #b6372e, 9999px 0 0 1px #b6372e, 10014px 0 0 -1px #b6372e;
+    }
+    50% {
+      box-shadow: 10014px 0 0 -1px #b6372e, 9984px 0 0 -1px #b6372e, 9999px 0 0 1px #b6372e;
+    }
+    100% {
+      box-shadow: 9999px 0 0 1px #b6372e, 10014px 0 0 -1px #b6372e, 9984px 0 0 -1px #b6372e;
+    }
+  }
+/* End Loading Animation */
 
 
 

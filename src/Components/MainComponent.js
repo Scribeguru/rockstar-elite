@@ -1,5 +1,6 @@
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import Login from './LoginComponent';
 import Header from './HeaderComponent';
 import Execute from './ExecuteComponent';
 import Arsenal from './ArsenalComponent';
@@ -26,6 +27,7 @@ export default function Main() {
 		<>
 			<Header />
 			<Switch>
+				<Route path ="/login" component={Login} />
 				<Route path="/arsenal"
 					render={() => <Arsenal
 						exerciseArr={exerciseArr}
@@ -39,7 +41,7 @@ export default function Main() {
 						setWorkoutData={setWorkoutData}
 					/>} />
 				<Route path="/about" component={About} />
-				<Redirect to='/arsenal' />
+				<Redirect to='/login' />
 			</Switch>
 		</>
 	);

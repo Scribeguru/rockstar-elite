@@ -101,7 +101,7 @@ export default function Execute(props) {
 
 	return (
 		<>
-			<Form onSubmit={e => (handleSubmit(e))} autoComplete="off">
+			<Form onSubmit={e => handleSubmit(e)} autoComplete="off">
 				<Container form fluid className="grid">
 					{mappedSelect}
 				</Container>

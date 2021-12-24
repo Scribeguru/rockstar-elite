@@ -1,152 +1,163 @@
 @import url('https://fonts.googleapis.com/css2?family=Encode+Sans+SC:wght@400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap');
-    body {
-        background-color: #22242e;
-        color: #ed674e;
-        font-family: 'Nunito', sans-serif;
-        overflow-x: hidden;
-    }
+body {
+    background-color: #22242e;
+    color: #ed674e;
+    font-family: 'Nunito', sans-serif;
+    overflow-x: hidden;
+}
 
-    body::selection {
-        background-color: #6c757d;
-    }
+body::selection {
+    background-color: #6c757d;
+}
 
-    .btn {
-        border-radius: 0;
-        padding: 0.em;
-        color: #dcc371;
-        font-family: 'Encode Sans SC', sans-serif;
-        text-align: center;
-    }
-
-    .btn:hover {
-        color: #ed674e;
-    }
-
-    .close {
-        background-color: #7c868f;
-        border-style: none;
-        padding: 6px 12px;
-        opacity: 1;
-        font-size: 0.9em;
-    }
-
-    .close:hover {
-        background-color: #929ea8;
-        color: black;
-    }
-
-    .drag-target {
-        border-top: 2px solid #595c6e;
-        cursor: pointer;
-    }
-
-    .exercise-name {
-        font-size: 1.2em;
-        color: #dcc371;
-        cursor: pointer;
-    }
-
-    .exercise-name:hover {
-        font-weight: bold;
-    }
-
-    .exercise-selected {
-        font-size: 1.2em;
-        color: #dcc371;
-        cursor: pointer;
-        font-weight: bold;
-        font-style: italic;
-    }
-
-    .exercise-option {
-        font-size: 1.5em;
-        cursor: pointer;
-    }
-
-    .exercise-option:hover {
-        color: #eb9181;
-    }
-
-    .form-control {
-        appearance: inherit;
-        background-color: #22242e;
-        border-color: #a54636;
-        border-radius: 0;
-        font-family: 'Nunito', sans-serif;
-        text-align: center;
-        color: #ed674e;
-    }
-
-
-    .form-control:focus {
-        background-color: #22242e;
-        color: #ed674e;
-        border-color: #ed674e;
-        box-shadow: none;
-    }
-
-    .grid {
-        border: 0.2em solid #a54636;
-        border-bottom: none;
-    }
-
-    .grid .cat {
-        border-bottom: 0.2em solid #a5473688;
-    }
-
-    .grid .col {
-        border-right: none;
-        border-left: none;
-    }
-
-  hr {
-      margin: 0.2em;
-  }
-
-  li {
-      list-style: none;
-  }
-
-  .links {
-      text-decoration: none;
-      color: #ed674e;
-  }
-
-  .links:hover {
-      color: #dcc371;
-  }
-
-  .modal-content {
-      background-color: #22242e;
-      outline: 1px solid #dcc371;
-      border-radius: 0;
-  }
-
-  .modal-header {
-      border-bottom: 1px solid #dcc371;
-  }
-
-  .selected {
-    font-size: 1.2em;
-    color: #dcc371;
-    font-weight: bold;
-    user-select: none;
-    word-break: break-word;
-  }
-
-  .selected .form-control::placeholder {
-      text-align: left;
-  }
-
-  .title {
+.btn {
+    border-radius: 0;
+    padding: 0.em;
     color: #dcc371;
     font-family: 'Encode Sans SC', sans-serif;
     text-align: center;
-    cursor: default;
-  }
+}
 
-  
+.btn:hover {
+    color: #ed674e;
+}
+
+.close {
+    background-color: #7c868f;
+    border-style: none;
+    padding: 6px 12px;
+    opacity: 1;
+    font-size: 0.9em;
+}
+
+.close:hover {
+    background-color: #929ea8;
+    color: black;
+}
+
+.drag-target {
+    border-top: 2px solid #595c6e;
+    cursor: pointer;
+}
+
+.exercise-name {
+    font-size: 1.2em;
+    color: #dcc371;
+    cursor: pointer;
+}
+
+.exercise-name:hover {
+    font-weight: bold;
+}
+
+.exercise-selected {
+    font-size: 1.2em;
+    color: #dcc371;
+    cursor: pointer;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.exercise-option {
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.exercise-option:hover {
+    color: #eb9181;
+}
+
+.form-control, textarea {
+    background-color: #22242e;
+    border-color: #a54636;
+    border-radius: 0;
+    font-family: 'Nunito', sans-serif;
+    text-align: center;
+    color: #ed674e;
+}
+
+
+.form-control:focus, textarea:focus {
+    background-color: #22242e;
+    color: #ed674e;
+    border-color: #ed674e;
+    box-shadow: none;
+    outline: none;
+}
+
+.greyed-out {
+    opacity: .5;
+}
+
+.grid {
+    border: 0.2em solid #a54636;
+    border-bottom: none;
+}
+
+.grid .cat {
+    border-bottom: 0.2em solid #a5473688;
+}
+
+.grid .col {
+    border-right: none;
+    border-left: none;
+}
+
+hr {
+    margin: 0.2em;
+}
+
+li {
+    list-style: none;
+}
+
+.links {
+    text-decoration: none;
+    color: #ed674e;
+}
+
+.links:hover {
+    color: #dcc371;
+}
+
+.modal-content {
+    background-color: #22242e;
+    outline: 1px solid #dcc371;
+    border-radius: 0;
+}
+
+.modal-header {
+    border-bottom: 1px solid #dcc371;
+}
+
+.selected {
+font-size: 1.2em;
+color: #dcc371;
+font-weight: bold;
+user-select: none;
+word-break: break-word;
+}
+
+.selected .form-control::placeholder {
+    text-align: left;
+}
+
+textarea {
+width: 90%;
+height: 15vh;
+font-size: 16px;
+resize: none;
+}
+
+.title {
+color: #dcc371;
+font-family: 'Encode Sans SC', sans-serif;
+text-align: center;
+cursor: default;
+}
+
+
 
 
 

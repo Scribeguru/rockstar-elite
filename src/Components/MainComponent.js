@@ -8,6 +8,7 @@ import About from './AboutComponent';
 export default function Main() {
 
     const [exerciseArr, setExerciseData] = useState([]);
+    const [archiveData, setArchiveData] = useState({});
 
     useEffect(() => {
         const myExercises = localStorage.getItem('my-exercises');
@@ -33,6 +34,7 @@ export default function Main() {
                     render={() => <Execute
                         exerciseArr={exerciseArr}
                         setExerciseData={setExerciseData}
+                        setArchiveData={setArchiveData}
                     />} />
                     <Route path="/about" component={About} />
                     <Redirect to='/arsenal' />

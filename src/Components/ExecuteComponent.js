@@ -144,7 +144,7 @@ export default function Execute(props) {
 							</Button>
 						</Col>
 						<Col xs="12" className="text-center my-2">
-							<Link to="/">
+							<Link to="/arsenal">
 								<Button className="shadow-none" size="lg" color="secondary" outline>
 									Arsenal
 								</Button>

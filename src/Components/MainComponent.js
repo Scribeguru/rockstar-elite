@@ -11,6 +11,7 @@ export default function Main() {
 	const [exerciseArr, setExerciseData] = useState([]);
 	const [workoutData, setWorkoutData] = useState([]);
 	const [archiveData, setArchiveData] = useState({});
+	const [isLoggedIn, setLoggedIn] = useState(false);
 
 	useEffect(() => {
 		const myExercises = localStorage.getItem('my-exercises');
@@ -23,11 +24,21 @@ export default function Main() {
 		localStorage.setItem('my-exercises', JSON.stringify(exerciseArr));
 	});
 
+	const header = (
+		<Header />
+	);
+
 	return (
 		<>
-			<Header />
+			<Header
+				isLoggedIn={isLoggedIn}
+				setLoggedIn={setLoggedIn} />
 			<Switch>
-				<Route path ="/login" component={Login} />
+				<Route path="/login"
+					render={() => <Login
+						isLoggedIn={isLoggedIn}
+						setLoggedIn={setLoggedIn}
+					/>} />
 				<Route path="/arsenal"
 					render={() => <Arsenal
 						exerciseArr={exerciseArr}

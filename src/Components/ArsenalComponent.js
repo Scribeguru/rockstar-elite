@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Jumbotron, Container, Col, Row, Button, Modal, ModalHeader, ModalBody, Form, FormGroup, Label, Input } from 'reactstrap';
 import ExerciseList from './ExerciseListComponent';
@@ -7,20 +7,6 @@ import ExerciseList from './ExerciseListComponent';
 export default function Arsenal(props) {
 
 	const [isModalOpen, modalSwitch] = useState(false);
-
-	useEffect(() => {
-		setTimeout(() => {
-			if (!props.isLoggedIn) {
-				loginRedirect();
-			}
-		}, 2000);
-	});
-
-	const forceClick = useRef();
-
-	function loginRedirect() {
-		forceClick.current.click();
-	}
 
 	function toggleModal() {
 		modalSwitch((isModalOpen) => isModalOpen = !isModalOpen);
@@ -50,7 +36,6 @@ export default function Arsenal(props) {
 
 	return (
 		<>
-			<Link to="/login" ref={forceClick} replace hidden />
 			<Container fluid={true} className="grid">
 				<Row className="mt-1 mx-sm-2">
 					<Col className="text-center cat">

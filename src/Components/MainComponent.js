@@ -49,7 +49,7 @@ export default function Main() {
 						setWorkoutData={setWorkoutData}
 					/>} />
 				<Route path="/about" component={About} />
-				<Redirect to='/login' />
+				{(isLoggedIn) ? <Redirect to="/arsenal" /> : <Redirect to="/login" />}
 			</Switch>
 		</>
 	);

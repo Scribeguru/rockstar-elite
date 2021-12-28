@@ -82,7 +82,7 @@ export default function Login(props) {
                 <Input name="username" id="username" required />
                 <Label className="mt-3 title" htmlFor="password">Password:</Label>
                 <Input type="password" name="password" id="password" required />
-                <Link to="/arsenal" ref={forceClick} hidden />
+                <Link to="/arsenal" ref={forceClick} replace hidden />
                 <Button
                   id="logIn"
                   name="logIn"

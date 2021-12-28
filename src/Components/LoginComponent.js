@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Jumbotron, Container, Row, Form, Col, FormGroup, Input, Button, Label, Modal, ModalHeader, ModalBody } from 'reactstrap';
+import React, { useState, useEffect, useRef } from 'react';
+import { Container, Row, Form, Col, FormGroup, Input, Button, Label, Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 export default function Login(props) {
@@ -11,6 +11,8 @@ export default function Login(props) {
     props.setLoggedIn(false); //gets called on every render
     return () => props.setLoggedIn(true); //gets called prior to unmount
   });
+
+  const forceClick = useRef();
 
   const loading = (
     <>
@@ -28,32 +30,35 @@ export default function Login(props) {
     modalSwitch((isModalOpen) => isModalOpen = !isModalOpen);
   }
 
-  function validatePasswordMatch(e) {
-    console.log(e);
-    return (e.target[1].value === e.target[2].value) ? true : alert(`Please ensure your passwords match.`);
-  }
+  function transportUser() {
+    forceClick.current.click();
+  }//grants access to underlying DOM node on <Link>, and forcibly fires a click() event on it.
 
   async function handleLoginSubmit(e) {
     e.preventDefault();
-    try {
-      //post to login, if successful redirect to arsenal and get exercises, workouts, archives, and weight, and setLoggedIn(true).
-      let success; //= await query
-      (success) ? console.log('post to login') : alert('Credentials not found.');
+    try{
+      //post user data to server and await response. If successful -->
+      transportUser();
     }
     catch (err) {
 
     }
   }
 
+  function validatePasswordMatch(e) {
+    console.log(e);
+    return (e.target[1].value === e.target[2].value) ? true : alert(`Please ensure your passwords match.`);
+  }
+
   async function handleRegisterSubmit(e) {
-    // setLoading(true);
     e.preventDefault();
+    //setLoading(true)
     let passwordMatch = await validatePasswordMatch(e);
     if (passwordMatch) {
       try {
         //attempt to post new user data to /register. If successful, notify user and inform them they can login. If unsuccessful, notify them of the issue and how they can fix it, otherwise ask them to try again.
         //then(setLoading(false))
-        alert('Thank you for registering with Rockstar Elite, you may now login.')
+        alert('Thank you for registering with Rockstar Elite, you may now login.');
       }
       catch (err) {
         setLoading(false);
@@ -64,10 +69,10 @@ export default function Login(props) {
 
   function guestLogin() {
     //post to /login as designated guest acct.
+    return "/arsenal";
   }
 
   return (
-    <>
       <Container fluid={true}>
         <Row>
           <Form onSubmit={e => handleLoginSubmit(e)}>
@@ -77,6 +82,7 @@ export default function Login(props) {
                 <Input name="username" id="username" required />
                 <Label className="mt-3 title" htmlFor="password">Password:</Label>
                 <Input type="password" name="password" id="password" required />
+                <Link to="/arsenal" ref={forceClick} hidden />
                 <Button
                   id="logIn"
                   name="logIn"
@@ -86,7 +92,6 @@ export default function Login(props) {
                   outline>
                   Log In
                 </Button>
-
               </FormGroup>
             </Col>
           </Form>
@@ -103,8 +108,8 @@ export default function Login(props) {
             </Button>
           </Col>
           <Col xs="12" className="text-center mt-5">
-            <Link to="/arsenal">
-              <Button onClick={guestLogin} className="shadow-none" size="lg" color="secondary" outline >
+            <Link to={guestLogin}>
+              <Button className="shadow-none" size="lg" color="secondary" outline >
                 Log In as Guest
               </Button>
             </Link>
@@ -130,10 +135,9 @@ export default function Login(props) {
                 color="secondary"
                 outline>Register</Button>
             </Form>
-            {(!isLoading) ? null : loading}
+            {(isLoading) ? loading : null}
           </ModalBody>
         </Modal>
       </Container>
-    </>
   );
 }

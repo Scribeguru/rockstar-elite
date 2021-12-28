@@ -24,10 +24,6 @@ export default function Main() {
 		localStorage.setItem('my-exercises', JSON.stringify(exerciseArr));
 	});
 
-	const header = (
-		<Header />
-	);
-
 	return (
 		<>
 			<Header
@@ -43,6 +39,7 @@ export default function Main() {
 					render={() => <Arsenal
 						exerciseArr={exerciseArr}
 						setExerciseData={setExerciseData}
+						isLoggedIn={isLoggedIn}
 					/>} />
 				<Route path="/execute"
 					render={() => <Execute

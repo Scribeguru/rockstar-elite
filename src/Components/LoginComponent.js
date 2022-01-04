@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Container, Row, Form, Col, FormGroup, Input, Button, Label, Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { baseUrl } from '../shared/baseUrl';
 
 export default function Login(props) {
 
@@ -36,12 +37,28 @@ export default function Login(props) {
 
   async function handleLoginSubmit(e) {
     e.preventDefault();
-    try{
-      //post user data to server and await response. If successful -->
-      transportUser();
+    try {
+      fetch(baseUrl + 'users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username: e.target[0].value,
+          password: e.target[1].value
+        })
+      })
+        .then(res => {
+          console.log(res, "login response")
+          return res.json()
+        })
+        .then(loginStatus => {
+          (loginStatus.success) ? transportUser() : alert('Please try again.')
+        });
     }
     catch (err) {
-
+      console.log(err);
+      alert('Please try again.');
     }
   }
 
@@ -73,71 +90,71 @@ export default function Login(props) {
   }
 
   return (
-      <Container fluid={true}>
-        <Row>
-          <Form onSubmit={e => handleLoginSubmit(e)}>
-            <Col className="text-center">
-              <FormGroup>
-                <Label className="mt-3 title" htmlFor="username">Username:</Label>
-                <Input name="username" id="username" required />
-                <Label className="mt-3 title" htmlFor="password">Password:</Label>
-                <Input type="password" name="password" id="password" required />
-                <Link to="/arsenal" ref={forceClick} replace hidden />
-                <Button
-                  id="logIn"
-                  name="logIn"
-                  type="submit"
-                  className="shadow-none mt-3"
-                  size="lg" color="secondary"
-                  outline>
-                  Log In
-                </Button>
-              </FormGroup>
-            </Col>
-          </Form>
-          <Col xs="12" className="text-center mt-5">
-            <Button
-              id="registerNewUser"
+    <Container fluid={true}>
+      <Row>
+        <Form onSubmit={e => handleLoginSubmit(e)}>
+          <Col className="text-center">
+            <FormGroup>
+              <Label className="mt-3 title" htmlFor="username">Username:</Label>
+              <Input name="username" id="username" required />
+              <Label className="mt-3 title" htmlFor="password">Password:</Label>
+              <Input type="password" name="password" id="password" required />
+              <Link to="/arsenal" ref={forceClick} replace hidden />
+              <Button
+                id="logIn"
+                name="logIn"
+                type="submit"
+                className="shadow-none mt-3"
+                size="lg" color="secondary"
+                outline>
+                Log In
+              </Button>
+            </FormGroup>
+          </Col>
+        </Form>
+        <Col xs="12" className="text-center mt-5">
+          <Button
+            id="registerNewUser"
+            name="registerNewUser"
+            className="shadow-none"
+            size="lg"
+            color="secondary"
+            outline
+            onClick={toggleModal}>
+            Register
+          </Button>
+        </Col>
+        <Col xs="12" className="text-center mt-5">
+          <Link to={guestLogin}>
+            <Button className="shadow-none" size="lg" color="secondary" outline >
+              Log In as Guest
+            </Button>
+          </Link>
+        </Col>
+      </Row>
+      <Modal isOpen={isModalOpen} toggle={toggleModal}>
+        <ModalHeader toggle={toggleModal}>
+          <h4 className="title">Register as New User</h4>
+        </ModalHeader>
+        <ModalBody className="text-center">
+          <Form onSubmit={e => handleRegisterSubmit(e)}>
+            <Label htmlFor="registerUsername">Username:</Label>
+            <Input id="registerUsername" name="registerUsername" required />
+            <Label htmlfor="registerPassword" name="registerPassword">Password:</Label>
+            <Input type="password" id="registerPassword" name="registerPassword" required />
+            <Label htmlfor="confirmPassword" name="confirmPassword">Confirm Password:</Label>
+            <Input type="password" id="confirmPassword" name="confirmPassword" required />
+            <Button id="registerNewUser"
               name="registerNewUser"
-              className="shadow-none"
+              type="submit"
+              className="shadow-none mt-4"
               size="lg"
               color="secondary"
-              outline
-              onClick={toggleModal}>
-              Register
-            </Button>
-          </Col>
-          <Col xs="12" className="text-center mt-5">
-            <Link to={guestLogin}>
-              <Button className="shadow-none" size="lg" color="secondary" outline >
-                Log In as Guest
-              </Button>
-            </Link>
-          </Col>
-        </Row>
-        <Modal isOpen={isModalOpen} toggle={toggleModal}>
-          <ModalHeader toggle={toggleModal}>
-            <h4 className="title">Register as New User</h4>
-          </ModalHeader>
-          <ModalBody className="text-center">
-            <Form onSubmit={e => handleRegisterSubmit(e)}>
-              <Label htmlFor="registerUsername">Username:</Label>
-              <Input id="registerUsername" name="registerUsername" required />
-              <Label htmlfor="registerPassword" name="registerPassword">Password:</Label>
-              <Input type="password" id="registerPassword" name="registerPassword" required />
-              <Label htmlfor="confirmPassword" name="confirmPassword">Confirm Password:</Label>
-              <Input type="password" id="confirmPassword" name="confirmPassword" required />
-              <Button id="registerNewUser"
-                name="registerNewUser"
-                type="submit"
-                className="shadow-none mt-4"
-                size="lg"
-                color="secondary"
-                outline>Register</Button>
-            </Form>
-            {(isLoading) ? loading : null}
-          </ModalBody>
-        </Modal>
-      </Container>
+              outline>Register</Button>
+          </Form>
+          {(isLoading) ? loading : null}
+        </ModalBody>
+      </Modal>
+    </Container>
   );
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Jumbotron, Container, Col, Row, Button, Modal, ModalHeader, ModalBody, Form, FormGroup, Label, Input } from 'reactstrap';
 import ExerciseList from './ExerciseListComponent';
@@ -7,6 +7,10 @@ import ExerciseList from './ExerciseListComponent';
 export default function Arsenal(props) {
 
 	const [isModalOpen, modalSwitch] = useState(false);
+
+	useEffect(() => {
+		props.setLoggedIn(true);
+	})
 
 	function toggleModal() {
 		modalSwitch((isModalOpen) => isModalOpen = !isModalOpen);

@@ -9,8 +9,7 @@ export default function Login(props) {
   const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
-    props.setLoggedIn(false); //gets called on every render
-    return () => props.setLoggedIn(true); //gets called prior to unmount
+    props.setLoggedIn(false);
   });
 
   const forceClick = useRef();
@@ -33,13 +32,14 @@ export default function Login(props) {
 
   function transportUser() {
     forceClick.current.click();
-  }//grants access to underlying DOM node on <Link>, and forcibly fires a click() event on it.
+  }
 
   async function handleLoginSubmit(e) {
     e.preventDefault();
     try {
       fetch(baseUrl + 'users/login', {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json'
         },

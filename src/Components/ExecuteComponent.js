@@ -15,8 +15,8 @@ export default function Execute(props) {
 
 	function handleSubmit(e) {
 		e.preventDefault();
-		const archive = {};
-		const workout = {};
+		// const archive = {};
+		// const workout = {};
 		console.log(e);
 		if (e.nativeEvent.submitter.name === "archiveLog") {
 			//gather all the data and toss it into the archive obj.

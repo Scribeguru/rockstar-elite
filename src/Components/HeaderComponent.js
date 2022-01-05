@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Jumbotron, Container, Row, Col } from 'reactstrap';
+import { baseUrl } from '../shared/baseUrl';
 
 export default function Header(props) {
 
@@ -9,6 +10,12 @@ export default function Header(props) {
 		let day = today.getDate();
 		let year = today.getFullYear();
 		return `${month + 1}/${day}/${year}`;
+	}
+
+	function logout() {
+		fetch(baseUrl + 'users/logout', {
+			credentials: 'include',
+		});
 	}
 
 	return (
@@ -33,7 +40,9 @@ export default function Header(props) {
 						<h5><Link to="/about" className="links">About</Link></h5>
 					</Col>
 					<Col className="text-center">
-						<h5><Link to="/login" className="links">Logout</Link></h5>
+						<h5 onClick={logout}>
+							<Link to="/login" className="links">Logout</Link>
+						</h5>
 					</Col>
 				</Row>
 			</Container>

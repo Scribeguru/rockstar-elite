@@ -9,13 +9,14 @@ import About from './AboutComponent';
 
 export default function Main() {
 
+	const [isLoggedIn, setLoggedIn] = useState();
+
 	const [exerciseArr, setExerciseData] = useState([]);
 	const [exercises, setExercises] = useState([]);
 	const [workouts, setWorkouts] = useState([]);
 	const [userWeight, setUserWeight] = useState([]);
 	const [archive, setArchive] = useState([]);
-	const [isLoggedIn, setLoggedIn] = useState(false);
-
+	
 	useEffect(() => {
 		if (isLoggedIn) {
 			try {
@@ -30,7 +31,7 @@ export default function Main() {
 						return res.json()
 					})
 					.then(exercises => {
-						console.log(exercises);
+						console.log(exercises[0]);
 					})
 			}
 			catch (err) {
@@ -39,20 +40,16 @@ export default function Main() {
 		}
 	}, [exercises, isLoggedIn])//every time <Main /> renders, data gets fetched from the server and placed into state.
 
-	useEffect(() => {
-		localStorage.setItem('isLoggedIn', Boolean(isLoggedIn));
-	});
+	// useEffect(() => {
+	// 	const loginStatus = localStorage.getItem('login-status');
+	// 	if (loginStatus) {
+	// 		setExerciseData(JSON.parse(loginStatus));
+	// 	}
+	// }, []);
 
-	useEffect(() => {
-		let loginStatus = localStorage.getItem('isLoggedIn');
-		if (loginStatus) {
-			setLoggedIn(Boolean(loginStatus));
-		}
-	}, []);
-
-	useEffect(() => {
-		localStorage.setItem('my-exercises', JSON.stringify(exerciseArr));
-	});
+	// useEffect(() => {
+	// 	localStorage.setItem('login-status', JSON.stringify(isLoggedIn));
+	// });
 
 	useEffect(() => {
 		const myExercises = localStorage.getItem('my-exercises');
@@ -69,7 +66,6 @@ export default function Main() {
 		<>
 			<Header
 				isLoggedIn={isLoggedIn}
-				setLoggedIn={setLoggedIn}
 				userWeight={userWeight} />
 			<Switch>
 				<Route path="/login"
@@ -79,6 +75,7 @@ export default function Main() {
 					/>} />
 				<Route path="/arsenal"
 					render={() => <Arsenal
+						setLoggedIn={setLoggedIn}
 						exerciseArr={exerciseArr}
 						setExerciseData={setExerciseData}
 						exercises={exercises}

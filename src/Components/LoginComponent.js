@@ -65,19 +65,35 @@ export default function Login(props) {
   }
 
   function validatePasswordMatch(e) {
-    console.log(e);
     return (e.target[1].value === e.target[2].value) ? true : alert(`Please ensure your passwords match.`);
   }
 
   async function handleRegisterSubmit(e) {
     e.preventDefault();
-    //setLoading(true)
+    console.log(e);
+    setLoading(true)
     let passwordMatch = await validatePasswordMatch(e);
     if (passwordMatch) {
       try {
-        //attempt to post new user data to /register. If successful, notify user and inform them they can login. If unsuccessful, notify them of the issue and how they can fix it, otherwise ask them to try again.
-        //then(setLoading(false))
-        alert('Thank you for registering with Rockstar Elite, you may now login.');
+        fetch(baseUrl + 'users/register', {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            username: e.target[0].value,
+            password: e.target[1].value
+          })
+        })
+          .then(res => {
+            return res.json()
+          })
+          .then(registerStatus => {
+            (registerStatus.success) ? alert('Registration successful, you may now login.') : alert('Please try again.')
+            setLoading(false);
+            toggleModal();
+          });
       }
       catch (err) {
         setLoading(false);

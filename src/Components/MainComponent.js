@@ -27,11 +27,10 @@ export default function Main() {
 					}
 				})
 					.then(res => {
-						console.log(res, "exercise response");
 						return res.json()
 					})
 					.then(exercises => {
-						console.log(exercises[0]);
+						console.log(exercises);
 					})
 			}
 			catch (err) {
@@ -39,17 +38,6 @@ export default function Main() {
 			}
 		}
 	}, [exercises, isLoggedIn])//every time <Main /> renders, data gets fetched from the server and placed into state.
-
-	// useEffect(() => {
-	// 	const loginStatus = localStorage.getItem('login-status');
-	// 	if (loginStatus) {
-	// 		setExerciseData(JSON.parse(loginStatus));
-	// 	}
-	// }, []);
-
-	// useEffect(() => {
-	// 	localStorage.setItem('login-status', JSON.stringify(isLoggedIn));
-	// });
 
 	useEffect(() => {
 		const myExercises = localStorage.getItem('my-exercises');

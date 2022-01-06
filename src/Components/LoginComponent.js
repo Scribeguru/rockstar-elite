@@ -49,7 +49,9 @@ export default function Login(props) {
         })
       })
         .then(res => {
-          console.log(res, "login response")
+          if (res.statusText === 'Unauthorized') {
+            alert('User information not found. Please create an account or try again.');
+          }
           return res.json()
         })
         .then(loginStatus => {
@@ -85,7 +87,17 @@ export default function Login(props) {
   }
 
   function guestLogin() {
-    //post to /login as designated guest acct.
+    fetch(baseUrl + 'users/login', {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: 'guest',
+        password: 'guest'
+      })
+    })
     return "/arsenal";
   }
 

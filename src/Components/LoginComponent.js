@@ -70,7 +70,6 @@ export default function Login(props) {
 
   async function handleRegisterSubmit(e) {
     e.preventDefault();
-    console.log(e);
     setLoading(true)
     let passwordMatch = await validatePasswordMatch(e);
     if (passwordMatch) {
@@ -87,10 +86,11 @@ export default function Login(props) {
           })
         })
           .then(res => {
-            return res.json()
+            return res.json();
           })
           .then(registerStatus => {
-            (registerStatus.success) ? alert('Registration successful, you may now login.') : alert('Please try again.')
+            console.log(registerStatus);
+            (registerStatus.success) ? alert('Registration successful, you may now login.') : alert(registerStatus.err.message);
             setLoading(false);
             toggleModal();
           });

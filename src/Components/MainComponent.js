@@ -11,44 +11,50 @@ export default function Main() {
 
 	const [isLoggedIn, setLoggedIn] = useState();
 
-	const [exerciseArr, setExerciseData] = useState([]);
 	const [exercises, setExercises] = useState([]);
 	const [workouts, setWorkouts] = useState([]);
 	const [userWeight, setUserWeight] = useState([]);
 	const [archive, setArchive] = useState([]);
-	
+
 	useEffect(() => {
 		if (isLoggedIn) {
 			try {
-				fetch(baseUrl + 'exercises', {
-					credentials: 'include',
-					headers: {
-						'Content-Type': 'application/json'
-					}
-				})
+				Promise.all([
+					fetch(baseUrl + 'exercises', {
+						credentials: 'include'
+					}),
+					fetch(baseUrl + 'workouts', {
+						credentials: 'include'
+					}),
+					fetch(baseUrl + 'userWeight', {
+						credentials: 'include'
+					}),
+					fetch(baseUrl + 'archive', {
+						credentials: 'include'
+					})
+				])
 					.then(res => {
-						return res.json()
+						return Promise.all(res.map(response => {
+							return response.json();
+						}))
 					})
-					.then(exercises => {
-						console.log(exercises);
-					})
+					.then(data => {
+						console.log('exercises: ', data[0]);
+						console.log('workouts: ', data[1]);
+						console.log('userWeight: ', data[2]);
+						console.log('archive: ', data[3]);
+
+						setExercises(data[0]);
+						setWorkouts(data[1]);
+						setUserWeight(data[2]);
+						setArchive(data[3]);
+					});
 			}
 			catch (err) {
 				alert(err);
 			}
 		}
-	}, [exercises, isLoggedIn])//every time <Main /> renders, data gets fetched from the server and placed into state.
-
-	useEffect(() => {
-		const myExercises = localStorage.getItem('my-exercises');
-		if (myExercises) {
-			setExerciseData(JSON.parse(myExercises));
-		}
-	}, []);
-
-	useEffect(() => {
-		localStorage.setItem('my-exercises', JSON.stringify(exerciseArr));
-	});
+	}, [isLoggedIn, setExercises, setWorkouts, setUserWeight, setArchive]);
 
 	return (
 		<>
@@ -63,18 +69,14 @@ export default function Main() {
 					/>} />
 				<Route path="/arsenal"
 					render={() => <Arsenal
-						setLoggedIn={setLoggedIn}
-						exerciseArr={exerciseArr}
-						setExerciseData={setExerciseData}
 						exercises={exercises}
 						workouts={workouts}
 						setExercises={setExercises}
 						setWorkouts={setWorkouts}
+						setLoggedIn={setLoggedIn}
 					/>} />
 				<Route path="/execute"
 					render={() => <Execute
-						exerciseArr={exerciseArr}
-						setExerciseData={setExerciseData}
 						exercises={exercises}
 						workouts={workouts}
 						userWeight={userWeight}

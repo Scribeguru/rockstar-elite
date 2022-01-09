@@ -1,16 +1,18 @@
 import React from 'react';
+import ExerciseList from './ExerciseListComponent';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { baseUrl } from '../shared/baseUrl';
 import { Jumbotron, Container, Col, Row, Button, Modal, ModalHeader, ModalBody, Form, FormGroup, Label, Input } from 'reactstrap';
-import ExerciseList from './ExerciseListComponent';
 
 export default function Arsenal(props) {
 
 	const [isModalOpen, modalSwitch] = useState(false);
+	const [isLoading, setLoading] = useState(false);
 
 	useEffect(() => {
 		props.setLoggedIn(true);
-	})
+	});
 
 	function toggleModal() {
 		modalSwitch((isModalOpen) => isModalOpen = !isModalOpen);
@@ -18,25 +20,55 @@ export default function Arsenal(props) {
 
 	function handleSubmit(e) {
 		e.preventDefault();
-		const eName = e.target[0].value;
-		const eType = e.target[1].checked ?
+
+		let eName = e.target[0].value;
+		let eType = e.target[1].checked ?
 			e.target[1].value :
 			e.target[2].checked ?
 				e.target[2].value : alert('All new exercises must have an assigned Type.');
-		props.setExerciseData(() => [{
-			id: props.exerciseArr.length.toString(),
-			eName,
-			eType
-		}, ...props.exerciseArr]);
-		toggleModal();
+
+		if (eType) {
+			setLoading(true);
+			try {
+				fetch(baseUrl + 'exercises', {
+					method: 'POST',
+					credentials: 'include',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						name: eName,
+						strengthOrCardio: eType
+					})
+				})
+					.then(res => {
+						return res.json();
+					})
+					.then(res => {
+						props.setExercises([...props.exercises, res]);
+					});
+				setLoading(false);
+				toggleModal();
+			}
+			catch (err) {
+				alert(err);
+				setLoading(false);
+				toggleModal();
+			}
+		}
 	}
 
-	function parseType(strength, cardio) {
-		return strength ? strength : cardio ? cardio : null;
-	}
-
-	const sArray = parseType(props.exerciseArr.filter(exercises => exercises.eType === "Strength"), null);
-	const cArray = parseType(null, props.exerciseArr.filter(exercises => exercises.eType === "Cardio"));
+	const loading = (
+		<>
+			<Col xs="4" />
+			<Col>
+				<div className="stage">
+					<div className="dot-carousel"></div>
+				</div>
+			</Col>
+			<Col xs="4" />
+		</>
+	);
 
 	return (
 		<>
@@ -60,20 +92,20 @@ export default function Arsenal(props) {
 				<Row>
 					<Col className="cat mb-3">
 						<h5 className="text-center mb-0">Strength</h5>
-						{sArray.map(exercise => {
+						{props.exercises.filter(exercise => exercise.strengthOrCardio === "strength").map(strengthExercise => {
 							return (
-								<Row className="my-2" key={exercise.id}>
-									<ExerciseList exercise={exercise} />
+								<Row className="my-2" key={strengthExercise._id}>
+									<ExerciseList exercises={props.exercises} setExercises={props.setExercises} exercise={strengthExercise} />
 								</Row>
 							);
 						})}
 					</Col>
 					<Col className="cat mb-3">
 						<h5 className="text-center mb-0">Cardio</h5>
-						{cArray.map(exercise => {
+						{props.exercises.filter(exercise => exercise.strengthOrCardio === "cardio").map(cardioExercise => {
 							return (
-								<Row className="my-2" key={exercise.id}>
-									<ExerciseList exercise={exercise} />
+								<Row className="my-2" key={cardioExercise._id}>
+									<ExerciseList exercises={props.exercises} setExercises={props.setExercises} exercise={cardioExercise} />
 								</Row>
 							);
 						})}
@@ -113,10 +145,10 @@ export default function Arsenal(props) {
 										<Col>
 											<FormGroup>
 												<Label htmlFor="exerciseType" className="mt-3 mb-2 title">Assign Type:</Label>
-												<Input type="button" value="Strength" className="mb-2" id="strengthExercise"
+												<Input type="button" value="strength" className="mb-2" id="strengthExercise"
 													name="exerciseType" onFocus={e => { e.target.checked = true; e.target.form[2].checked = false }} />
 												<span>or</span>
-												<Input type="button" value="Cardio" className="mt-2" id="cardioExercise"
+												<Input type="button" value="cardio" className="mt-2" id="cardioExercise"
 													name="exerciseType" onFocus={e => { e.target.checked = true; e.target.form[1].checked = false; }} />
 											</FormGroup>
 											<Button type="submit" className="mt-5 mb-3 shadow-none" size="lg" color="secondary" outline>
@@ -126,6 +158,7 @@ export default function Arsenal(props) {
 									</Row>
 								</Container>
 							</Form>
+							{(isLoading) ? loading : null}
 						</ModalBody>
 					</Modal>
 				</Row>

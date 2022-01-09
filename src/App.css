@@ -36,6 +36,14 @@ body::selection {
     color: black;
 }
 
+.dot {
+    height: 25px;
+    width: 25px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
 .drag-target {
     border-top: 2px solid #595c6e;
     cursor: pointer;

@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Jumbotron, Container, Row, Col, Button, Input, Label, Form, FormGroup } from 'reactstrap';
+import { Jumbotron, Container, Row, Col, Button, Input, Label, Form } from 'reactstrap';
 import SelectedList from './SelectedListComponent';
 
 export default function Execute(props) {
 
-	const [selectArr, setList] = useState();
+	const [selectArr, setList] = useState(() => {
+		let selectedExercises = JSON.parse(localStorage.getItem('selected-exercises'));
+		return selectedExercises || [];
+	});
 	const [dragging, setdragging] = useState(false);
 	const [comments, setComments] = useState(false);
 

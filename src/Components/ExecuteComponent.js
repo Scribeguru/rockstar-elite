@@ -1,13 +1,17 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Jumbotron, Container, Row, Col, Button, Input, Label, Form } from 'reactstrap';
+import { Jumbotron, Container, Row, Col, Button, Input, Label, Form, FormGroup } from 'reactstrap';
 import SelectedList from './SelectedListComponent';
 
 export default function Execute(props) {
 
-	const [selectArr, setList] = useState(props.exerciseArr.filter(exercise => exercise.selected));
+	const [selectArr, setList] = useState();
 	const [dragging, setdragging] = useState(false);
 	const [comments, setComments] = useState(false);
+
+	useEffect(() => {
+		props.setLoggedIn(true)
+	});
 
 	const dragExercise = useRef();
 	const dragTarget = useRef();
@@ -109,13 +113,13 @@ export default function Execute(props) {
 					<Row className="mt-5">
 						<Col className="text-center mx-5">
 							<Label htmlFor="uWeight">Weigh-in Results:</Label>
-							<Input onKeyDown={e => uWeight(e)} id="uWeight" name="uWeight" />
+							<Input onKeyDown={e => uWeight(e)} id="uWeight" name="uWeight" placeholder='Enter your weight' />
 						</Col>
 					</Row>
 					<Row className="mt-4">
 						<Col className="text-center my-3">
 							<Label htmlFor="comments">Comments:</Label><br />
-							<textarea id="comments" name="comments" onChange={e => (manageArchive(e))} />
+							<textarea id="comments" name="comments" onChange={e => (manageArchive(e))} placeholder="Enter any thoughts or notes regarding your workout here — you can only archive your workout after doing this." />
 						</Col>
 						<Col xs="12" className="text-center my-3">
 							<Button

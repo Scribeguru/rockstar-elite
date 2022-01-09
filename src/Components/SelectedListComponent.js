@@ -5,7 +5,7 @@ export default function SelectedList({ exercise }) {
 
 	function parseType() {
 		const strength =
-			<Row id={exercise.eName} className="text-center">
+			<Row id={exercise.name} className="text-center">
 				<Col>
 					<Input placeholder="sets" />
 				</Col>
@@ -16,14 +16,14 @@ export default function SelectedList({ exercise }) {
 					<Input placeholder="weight" />
 				</Col>
 			</Row>;
-		const cardio = <Input id={exercise.eName} placeholder="length" />
-		const type = (exercise.eType === "Strength") ? strength : cardio;
+		const cardio = <Input id={exercise.name} placeholder="length" />
+		const type = (exercise.strengthOrCardio === "strength") ? strength : cardio;
 		return type;
 	}
 
 	return (
 		<>
-			<em>{exercise.eName}</em>
+			<em>{exercise.name}</em>
 			{parseType()}
 		</>
 	);

@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Col } from 'reactstrap';
 import { baseUrl } from '../shared/baseUrl';
 
 export default function ExerciseList({ exercise, exercises, setExercises }) {
 
 	const [selected, setSelected] = useState(false);
+
+	useEffect(() => {
+		localStorage.setItem('selected-exercises', JSON.stringify(exercises.filter(exercise => exercise.selected)));
+	}, [selected]);
 
 	function toggleSelect() {
 		setSelected(!selected);

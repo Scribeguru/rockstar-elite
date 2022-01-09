@@ -60,7 +60,9 @@ export default function Main() {
 		<>
 			<Header
 				isLoggedIn={isLoggedIn}
-				userWeight={userWeight} />
+				userWeight={userWeight}
+				archive={archive}
+				setArchive={setArchive} />
 			<Switch>
 				<Route path="/login"
 					render={() => <Login
@@ -85,6 +87,7 @@ export default function Main() {
 						setWorkouts={setWorkouts}
 						setUserWeight={setUserWeight}
 						setArchive={setArchive}
+						setLoggedIn={setLoggedIn}
 					/>} />
 				<Route path="/about" component={About} />
 				{(isLoggedIn) ? <Redirect to="/arsenal" /> : <Redirect to="/login" />}

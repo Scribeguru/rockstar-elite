@@ -4,16 +4,17 @@ import { baseUrl } from '../shared/baseUrl';
 
 export default function ExerciseList({ exercise, exercises, setExercises }) {
 
-	const [selected, setSelected] = useState(false);
+	const [selected, setSelected] = useState(JSON.parse(localStorage.getItem('selected-exercises')) || []);
 
 	useEffect(() => {
 		return () => {
-			localStorage.setItem('selected-exercises', JSON.stringify(exercises.filter(exercise => exercise.selected)))
+			localStorage.setItem('selected-exercises', JSON.stringify(exercises.filter(exercise => exercise.selected)));
 		};
 	}, [selected]);
 
 	function toggleSelect() {
-		setSelected(!selected);
+		(selected.includes(exercise)) ? setSelected(selected.filter(toKeep => toKeep !== exercise))
+			: setSelected([...selected, exercise]);
 		exercise.selected = !exercise.selected;
 	}
 
@@ -45,10 +46,10 @@ export default function ExerciseList({ exercise, exercises, setExercises }) {
 				<i onClick={deleteExercise} className="fa fa-trash fa-sm" />
 			</Col>
 			<Col
-				className={`${(exercise.selected) ? 'exercise-selected' : 'exercise-name'} text-center`}
+				className={`${exercise.selected ? 'exercise-selected' : 'exercise-name'} text-center`}
 				onClick={() => toggleSelect()}
 			>
-				{exercise.name} {(exercise.selected) ? <span className="ml-1"><em>(selected)</em></span> : null}
+				{exercise.name} {exercise.selected ? <span className="ml-1"><em>(selected)</em></span> : null}
 			</Col>
 			<Col sm="1" className="exercise-option">
 				<i className="fa fa-pencil" hidden />

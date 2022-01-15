@@ -1,22 +1,22 @@
 import React from 'react';
 import { Row, Col, Input } from 'reactstrap';
 
-export default function SelectedList({ exercise }) {
+export default function SelectedList({ exercise, selectedDetails }) {
 
 	function parseType() {
-		const strength =
-			<Row id={exercise.name} className="text-center">
+		const strength = 
+			<Row className="text-center">
 				<Col>
-					<Input placeholder="sets" />
+					<Input name={exercise.name}  placeholder="sets" />
 				</Col>
 				<Col>
-					<Input placeholder="reps" />
+					<Input name={exercise.name}  placeholder="reps" />
 				</Col>
 				<Col>
-					<Input placeholder="weight" />
+					<Input name={exercise.name}  placeholder="weight" />
 				</Col>
 			</Row>;
-		const cardio = <Input id={exercise.name} placeholder="length" />
+		const cardio = <Input name={exercise.name}  placeholder="length" />
 		const type = (exercise.strengthOrCardio === "strength") ? strength : cardio;
 		return type;
 	}

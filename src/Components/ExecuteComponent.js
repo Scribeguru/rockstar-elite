@@ -5,27 +5,29 @@ import SelectedList from './SelectedListComponent';
 
 export default function Execute(props) {
 
-	const [selectArr, setList] = useState(() => {
-		let selectedExercises = JSON.parse(localStorage.getItem('selected-exercises'));
-		return selectedExercises || [];
-	});
+	const [selectArr, setList] = useState(JSON.parse(localStorage.getItem('selected-exercises')) || []);
+	const [selectedDetails, setSelectedDetails] = useState();
 	const [dragging, setdragging] = useState(false);
 	const [comments, setComments] = useState(false);
-
-	useEffect(() => {
-		props.setLoggedIn(true)
-	});
 
 	const dragExercise = useRef();
 	const dragTarget = useRef();
 	const dragNode = useRef();
+	const triggerValuePopulation = useRef();
+
+	useEffect(() => {
+		props.setLoggedIn(true);
+		localStorage.setItem('selected-exercises', JSON.stringify(selectArr));
+		triggerValuePopulation.current.click();
+	}, [selectArr]);
 
 	function handleSubmit(e) {
 		e.preventDefault();
-		// const archive = {};
-		// const workout = {};
+		// let archive = {};
+		// let workout = {};
 		console.log(e);
 		if (e.nativeEvent.submitter.name === "archiveLog") {
+			console.log(e);
 			//gather all the data and toss it into the archive obj.
 		}
 		if (e.nativeEvent.submitter.name === "saveWorkout") {
@@ -86,7 +88,7 @@ export default function Execute(props) {
 				onDragOver={dragging ? (e) => handleDragOver(e) : null}
 				onDrop={() => { handleDrop() }}
 			>
-				<SelectedList exercise={exercise} />
+				<SelectedList selectedDetails={selectedDetails} exercise={exercise} />
 			</Col>
 		</Row>
 	));
@@ -106,9 +108,36 @@ export default function Execute(props) {
 			e.target.readOnly = true : e.target.readOnly = false;
 	}
 
+	function consolidateDetails(e) {
+		localStorage.setItem(e.target.name, JSON.stringify({
+			...JSON.parse(localStorage.getItem(e.target.name)),
+			[e.target.placeholder]: e.target.value
+		}));
+	}
+
+	function loadFormValues(e) {
+		e.preventDefault();
+
+		let keys = Object.keys(localStorage).filter(key => key !== "selected-exercises");
+		let details = keys.map(key => {
+			return { [key]: JSON.parse(localStorage.getItem(key)) }
+		});
+
+		for (let i = 1; i < e.target.form.length - 5; i++) {
+			let fieldData = details.filter(obj => obj[e.target.form[i].name]);
+			console.log(fieldData);
+			if (fieldData.length) {
+				e.target.form[i].value = fieldData[0][e.target.form[i].name][e.target.form[i].placeholder] || null;
+			} else {
+				e.target.form[i].value = null;
+			}
+		}
+	}
+
 	return (
 		<>
-			<Form onSubmit={e => handleSubmit(e)} autoComplete="off">
+			<Form onChange={e => consolidateDetails(e)} onSubmit={e => handleSubmit(e)} autoComplete="off">
+				<button ref={triggerValuePopulation} onClick={e => loadFormValues(e)} hidden />
 				<Container form fluid className="grid">
 					{mappedSelect}
 				</Container>

@@ -6,7 +6,7 @@ import SelectedList from './SelectedListComponent';
 export default function Execute(props) {
 
 	const [selectArr, setList] = useState(JSON.parse(localStorage.getItem('selected-exercises')) || []);
-	const [selectedDetails, setSelectedDetails] = useState();
+	const [measurementSys, setSys] = useState(false);
 	const [dragging, setdragging] = useState(false);
 	const [comments, setComments] = useState(false);
 
@@ -17,9 +17,10 @@ export default function Execute(props) {
 
 	useEffect(() => {
 		props.setLoggedIn(true);
+		localStorage.setItem('measurement-system', !JSON.parse(localStorage.getItem('measurement-system')));
 		localStorage.setItem('selected-exercises', JSON.stringify(selectArr));
 		triggerValuePopulation.current.click();
-	}, [selectArr]);
+	}, [selectArr, measurementSys]);
 
 	function handleSubmit(e) {
 		e.preventDefault();
@@ -88,13 +89,14 @@ export default function Execute(props) {
 				onDragOver={dragging ? (e) => handleDragOver(e) : null}
 				onDrop={() => { handleDrop() }}
 			>
-				<SelectedList selectedDetails={selectedDetails} exercise={exercise} />
+				<SelectedList exercise={exercise} />
 			</Col>
 		</Row>
 	));
 
 	function manageArchive(e) {
 		(e.target.value) ? setComments(true) : setComments(false);
+		(selectArr.length) ? e.target.readOnly = false : e.target.readOnly = true;
 	}
 
 	function checkComments(e) {
@@ -104,8 +106,13 @@ export default function Execute(props) {
 	}
 
 	function uWeight(e) {
-		(e.code.substring(0, 5) !== "Digit" && e.code !== "Backspace") ?
-			e.target.readOnly = true : e.target.readOnly = false;
+		(selectArr.length && e.code.substring(0, 5) === "Digit" || e.code === "Backspace") ? 
+		e.target.readOnly = false : e.target.readOnly = true;
+	}
+
+	function toggleMeasurement(e) {
+		console.log(e);
+		setSys(measurementSys => measurementSys = !measurementSys);
 	}
 
 	function consolidateDetails(e) {
@@ -118,18 +125,15 @@ export default function Execute(props) {
 	function loadFormValues(e) {
 		e.preventDefault();
 
-		let keys = Object.keys(localStorage).filter(key => key !== "selected-exercises");
+		let keys = Object.keys(localStorage).filter(key => key !== "selected-exercises" && key !== "measurement-system");
 		let details = keys.map(key => {
 			return { [key]: JSON.parse(localStorage.getItem(key)) }
 		});
 
 		for (let i = 1; i < e.target.form.length - 5; i++) {
 			let fieldData = details.filter(obj => obj[e.target.form[i].name]);
-			console.log(fieldData);
 			if (fieldData.length) {
 				e.target.form[i].value = fieldData[0][e.target.form[i].name][e.target.form[i].placeholder] || null;
-			} else {
-				e.target.form[i].value = null;
 			}
 		}
 	}
@@ -141,17 +145,18 @@ export default function Execute(props) {
 				<Container form fluid className="grid">
 					{mappedSelect}
 				</Container>
-				<Jumbotron fluid>
+				<Jumbotron fluid className={(selectArr.length) ? null : 'greyed-out'}>
 					<Row className="mt-5">
 						<Col className="text-center mx-5">
 							<Label htmlFor="uWeight">Weigh-in Results:</Label>
 							<Input onKeyDown={e => uWeight(e)} id="uWeight" name="uWeight" placeholder='Enter your weight' />
+							<span className="title" onClick={e => toggleMeasurement(e)}>({(!!JSON.parse(localStorage.getItem('measurement-system'))) ? 'lbs' : 'kgs'})</span>
 						</Col>
 					</Row>
 					<Row className="mt-4">
 						<Col className="text-center my-3">
 							<Label htmlFor="comments">Comments:</Label><br />
-							<textarea id="comments" name="comments" onChange={e => (manageArchive(e))} placeholder="Enter any thoughts or notes regarding your workout here — you can only archive your workout after doing this." />
+							<textarea id="comments" readOnly={(selectArr.length) ? false : true} name="comments" onChange={e => (manageArchive(e))} placeholder="Enter any thoughts or notes regarding your workout here — you can only archive your workout after doing this." />
 						</Col>
 						<Col xs="12" className="text-center my-3">
 							<Button

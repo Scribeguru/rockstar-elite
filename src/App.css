@@ -163,6 +163,7 @@ color: #dcc371;
 font-family: 'Encode Sans SC', sans-serif;
 text-align: center;
 cursor: default;
+user-select: none;
 }
 
 /* Loading Animation */

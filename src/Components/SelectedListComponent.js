@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col, Input } from 'reactstrap';
 
-export default function SelectedList({ exercise, selectedDetails }) {
+export default function SelectedList({ exercise }) {
 
 	function parseType() {
 		const strength = 

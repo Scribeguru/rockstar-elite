@@ -145,20 +145,20 @@ export default function Execute(props) {
 				<Container form fluid className="grid">
 					{mappedSelect}
 				</Container>
-				<Jumbotron fluid className={(selectArr.length) ? null : 'greyed-out'}>
-					<Row className="mt-5">
+				<Jumbotron fluid>
+					<Row className={(selectArr.length) ? "mt-5" : "mt-5 greyed-out"}>
 						<Col className="text-center mx-5">
 							<Label htmlFor="uWeight">Weigh-in Results:</Label>
 							<Input onKeyDown={e => uWeight(e)} id="uWeight" name="uWeight" placeholder='Enter your weight' />
-							<span className="title" onClick={e => toggleMeasurement(e)}>({(!!JSON.parse(localStorage.getItem('measurement-system'))) ? 'lbs' : 'kgs'})</span>
+							{/* <span className="title" onClick={e => toggleMeasurement(e)}>({(!!JSON.parse(localStorage.getItem('measurement-system'))) ? 'lbs' : 'kgs'})</span> */}
 						</Col>
 					</Row>
 					<Row className="mt-4">
-						<Col className="text-center my-3">
+						<Col className={(selectArr.length) ? "text-center my-3" : "text-center my-3 greyed-out"}>
 							<Label htmlFor="comments">Comments:</Label><br />
 							<textarea id="comments" readOnly={(selectArr.length) ? false : true} name="comments" onChange={e => (manageArchive(e))} placeholder="Enter any thoughts or notes regarding your workout here — you can only archive your workout after doing this." />
 						</Col>
-						<Col xs="12" className="text-center my-3">
+						<Col xs="12" className={(selectArr.length) ? "text-center my-3" : "text-center my-3 greyed-out"}>
 							<Button
 								id="archiveLog"
 								name="archiveLog"
@@ -172,7 +172,7 @@ export default function Execute(props) {
 								Archive Log
 							</Button>
 						</Col>
-						<Col xs="12" className="text-center my-2">
+						<Col xs="12" className={(selectArr.length) ? "text-center my-2" : "text-center my-2 greyed-out"}>
 							<Button
 								id="saveWorkout"
 								name="saveWorkout"

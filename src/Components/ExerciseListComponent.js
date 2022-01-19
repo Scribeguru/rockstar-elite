@@ -7,9 +7,7 @@ export default function ExerciseList({ exercise, exercises, setExercises }) {
 	const [selected, setSelected] = useState(JSON.parse(localStorage.getItem('selected-exercises')) || []);
 
 	useEffect(() => {
-		// return () => {
-			localStorage.setItem('selected-exercises', JSON.stringify(exercises.filter(exercise => exercise.selected)));
-		// };
+		localStorage.setItem('selected-exercises', JSON.stringify(exercises.filter(exercise => exercise.selected)));
 	}, [selected]);
 
 	function toggleSelect() {

@@ -6,7 +6,7 @@ import SelectedList from './SelectedListComponent';
 export default function Execute(props) {
 
 	const [selectArr, setList] = useState(JSON.parse(localStorage.getItem('selected-exercises')) || []);
-	const [measurementSys, setSys] = useState(false);
+	const [measurementSys, setSys] = useState(!!JSON.parse(localStorage.getItem('measurement-system')));
 	const [dragging, setdragging] = useState(false);
 	const [comments, setComments] = useState(false);
 
@@ -17,10 +17,9 @@ export default function Execute(props) {
 
 	useEffect(() => {
 		props.setLoggedIn(true);
-		localStorage.setItem('measurement-system', !JSON.parse(localStorage.getItem('measurement-system')));
 		localStorage.setItem('selected-exercises', JSON.stringify(selectArr));
 		triggerValuePopulation.current.click();
-	}, [selectArr, measurementSys]);
+	}, [selectArr, setSys]);
 
 	function handleSubmit(e) {
 		e.preventDefault();
@@ -106,13 +105,14 @@ export default function Execute(props) {
 	}
 
 	function uWeight(e) {
-		(selectArr.length && e.code.substring(0, 5) === "Digit" || e.code === "Backspace") ? 
-		e.target.readOnly = false : e.target.readOnly = true;
+		(selectArr.length && e.code.substring(0, 5) === "Digit" || e.code === "Backspace") ?
+			e.target.readOnly = false : e.target.readOnly = true;
 	}
 
 	function toggleMeasurement(e) {
-		console.log(e);
 		setSys(measurementSys => measurementSys = !measurementSys);
+		localStorage.setItem('measurement-system', !JSON.parse(localStorage.getItem('measurement-system')));
+		console.log(measurementSys);
 	}
 
 	function consolidateDetails(e) {
@@ -150,7 +150,7 @@ export default function Execute(props) {
 						<Col className="text-center mx-5">
 							<Label htmlFor="uWeight">Weigh-in Results:</Label>
 							<Input onKeyDown={e => uWeight(e)} id="uWeight" name="uWeight" placeholder='Enter your weight' />
-							{/* <span className="title" onClick={e => toggleMeasurement(e)}>({(!!JSON.parse(localStorage.getItem('measurement-system'))) ? 'lbs' : 'kgs'})</span> */}
+							<span className="exercise-name" onClick={e => toggleMeasurement(e)}>({(measurementSys) ? 'kgs' : 'lbs'})</span>
 						</Col>
 					</Row>
 					<Row className="mt-4">
@@ -180,7 +180,8 @@ export default function Execute(props) {
 								className="shadow-none"
 								size="lg"
 								color="secondary"
-								outline>
+								outline
+							>
 								Save Workout
 							</Button>
 						</Col>

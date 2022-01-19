@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Jumbotron, Container, Row, Col, Button, Input, Label, Form } from 'reactstrap';
+import { baseUrl } from '../shared/baseUrl';
 import SelectedList from './SelectedListComponent';
 
 export default function Execute(props) {
@@ -21,17 +22,59 @@ export default function Execute(props) {
 		triggerValuePopulation.current.click();
 	}, [selectArr, setSys]);
 
-	function handleSubmit(e) {
+	async function handleSubmit(e) {
 		e.preventDefault();
-		// let archive = {};
-		// let workout = {};
+		let archiveObj = {};
+		let workoutObj = {};
 		console.log(e);
 		if (e.nativeEvent.submitter.name === "archiveLog") {
-			console.log(e);
-			//gather all the data and toss it into the archive obj.
+			console.log(e.target.length-5);
+
+			let keys = Object.keys(localStorage).filter(key => key !== "selected-exercises");
+			let details = keys.map(key => {
+				return { [key]: JSON.parse(localStorage.getItem(key)) }
+			});
+			// try {
+			// 	fetch(baseUrl + 'userWeight', {
+			// 		method: 'POST',
+			// 		credentials: 'include',
+			// 		headers: {
+			// 			'Content-Type': 'application/json'
+			// 		},
+			// 		body: JSON.stringify({
+			// 			weight: details.find(detail => detail['uWeight'])['uWeight'][e.target[e.target.length - 5].placeholder],
+			// 			system: 
+			// 		})
+			// 	})
+			// 	fetch(baseUrl + 'archive', {
+			// 		method: 'POST',
+			// 		credentials: 'include',
+			// 		headers: {
+			// 			'Content-Type': 'application/json'
+			// 		},
+			// 		body: JSON.stringify({
+			// 			userWeight:
+			// 		})
+			// 	});
+			// }
+			// catch (err) {
+			// 	console.log(err);
+			// }
+
+			console.log(details);
+
+			// for (let i = 1; i < e.target.length - 3; i++) {
+			// 	if (e.target[i].placeholder = "length") {
+			// 		archiveObj[e.target[i].name] = e.target[i].value;
+			// 	} else {
+					
+			// 	}
+
+			// 	console.log(archiveObj);
+			// }
 		}
 		if (e.nativeEvent.submitter.name === "saveWorkout") {
-			//gather all the data and toss it into the workout obj.
+
 		}
 	}
 
@@ -125,8 +168,7 @@ export default function Execute(props) {
 	function loadFormValues(e) {
 		e.preventDefault();
 
-		console.log(JSON.parse(localStorage.getItem('comments'))[e.target.form[e.target.form.length-4].placeholder]);
-		if (JSON.parse(localStorage.getItem('comments'))[e.target.form[e.target.form.length-4].placeholder]) {
+		if (JSON.parse(localStorage.getItem('comments')) && localStorage.getItem('comments')[e.target.form[e.target.form.length - 4].placeholder]) {
 			setComments(true)
 		}
 

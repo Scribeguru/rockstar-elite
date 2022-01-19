@@ -30,7 +30,7 @@ export default function Header(props) {
 			credentials: 'include',
 		});
 	}
-
+console.log(props.userWeight)
 	return (
 		<Jumbotron fluid>
 			<Container className="mb-4">
@@ -44,7 +44,7 @@ export default function Header(props) {
 					<Col sm="3" className="text-center">
 						<h4
 							hidden={(props.isLoggedIn) ? false : true}>
-							Weight: {props.userWeight.weight} (get weight sys) as of {lastMeasured()}
+							Weight: {props.userWeight.weight} {props.userWeight.system} as of {lastMeasured()}
 						</h4>
 					</Col>
 				</Row>

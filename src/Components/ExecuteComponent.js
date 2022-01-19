@@ -125,12 +125,17 @@ export default function Execute(props) {
 	function loadFormValues(e) {
 		e.preventDefault();
 
+		console.log(JSON.parse(localStorage.getItem('comments'))[e.target.form[e.target.form.length-4].placeholder]);
+		if (JSON.parse(localStorage.getItem('comments'))[e.target.form[e.target.form.length-4].placeholder]) {
+			setComments(true)
+		}
+
 		let keys = Object.keys(localStorage).filter(key => key !== "selected-exercises" && key !== "measurement-system");
 		let details = keys.map(key => {
 			return { [key]: JSON.parse(localStorage.getItem(key)) }
 		});
 
-		for (let i = 1; i < e.target.form.length - 5; i++) {
+		for (let i = 1; i < e.target.form.length - 3; i++) {
 			let fieldData = details.filter(obj => obj[e.target.form[i].name]);
 			if (fieldData.length) {
 				e.target.form[i].value = fieldData[0][e.target.form[i].name][e.target.form[i].placeholder] || null;

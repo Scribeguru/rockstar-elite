@@ -53,6 +53,7 @@ body::selection {
     font-size: 1.2em;
     color: #dcc371;
     cursor: pointer;
+    user-select: none;
 }
 
 .exercise-name:hover {

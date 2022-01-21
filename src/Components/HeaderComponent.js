@@ -22,7 +22,7 @@ export default function Header(props) {
 		let month = mostRecent.getMonth();
 		let day = mostRecent.getDate();
 		let year = mostRecent.getFullYear();
-		return `${month + 1}/${day}/${year}`;
+		return `${month + 1}/${day}/${year}` || "--";
 	}
 
 	function logout() {
@@ -44,7 +44,7 @@ export default function Header(props) {
 					<Col sm="3" className="text-center">
 						<h4
 							hidden={(props.isLoggedIn) ? false : true}>
-							Weight: {props.userWeight.weight} {(props.userWeight.systemIsMetric) ? 'kgs' : 'lbs'} as of {lastMeasured()}
+							Weight: {props.userWeight.weight || "--"} {(props.userWeight.systemIsMetric) ? 'kgs' : 'lbs'} as of {lastMeasured()}
 						</h4>
 					</Col>
 				</Row>

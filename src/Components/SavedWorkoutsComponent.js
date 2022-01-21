@@ -1,8 +1,14 @@
-import React, { useEffect } from 'react';
-import { Row, Col } from 'reactstrap';
+import React, { useState, useEffect } from 'react';
+import { Col } from 'reactstrap';
 import { baseUrl } from '../shared/baseUrl';
 
-export default function SavedWorkouts({ workout, workouts, setWorkouts }) {
+export default function SavedWorkouts({ workout, workouts, setWorkouts, exercises, setExercises }) {
+
+  const [selected, setSelected] = useState(JSON.parse(localStorage.getItem('selected-exercises')) || []);
+
+  useEffect(() => {
+    localStorage.setItem('selected-exercises', JSON.stringify(exercises.filter(exercise => exercise.selected)));
+  }, [selected, exercises]);
 
   function deleteWorkout() {
     try {
@@ -27,11 +33,13 @@ export default function SavedWorkouts({ workout, workouts, setWorkouts }) {
   }
 
   function toggleSelect() {
-
+    console.log(workout.exercises)
+    console.log(localStorage.getItem('selected-exercises'));
   }
+
   return (
     <>
-      <Col className="my-auto">
+      <Col xs="4" className="my-auto">
         <i onClick={deleteWorkout} className="exercise-option fa fa-trash fa-sm" />
       </Col>
       <Col
@@ -39,8 +47,9 @@ export default function SavedWorkouts({ workout, workouts, setWorkouts }) {
         onClick={toggleSelect}
       >
         {workout.name}
+        {/* {exercise.selected ? <span className="ml-1"><em>(selected)</em></span> : null} */}
       </Col>
-      <Col>
+      <Col xs="4">
         <Col>
           {workout.exercises.map(exercise => {
             return (

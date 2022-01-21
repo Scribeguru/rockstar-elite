@@ -47,9 +47,11 @@ export default function Arsenal(props) {
 					})
 					.then(res => {
 						props.setExercises([...props.exercises, res]);
+						setLoading(false);
+						toggleModal();
+						console.log(res);
 					});
-				setLoading(false);
-				toggleModal();
+
 			}
 			catch (err) {
 				alert(err);
@@ -85,7 +87,8 @@ export default function Arsenal(props) {
 							return (
 								<>
 									<Row className="my-4" key={workout._id}>
-										<SavedWorkouts workouts={props.workouts} setWorkouts={props.setWorkouts} workout={workout} />
+										<SavedWorkouts workouts={props.workouts} setWorkouts={props.setWorkouts} workout={workout}
+											exercises={props.exercises} setExercises={props.setExercises} />
 									</Row>
 									<hr />
 								</>

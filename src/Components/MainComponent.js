@@ -53,6 +53,11 @@ export default function Main() {
 			catch (err) {
 				alert(err);
 			}
+		} else {
+			setExercises([]);
+			setWorkouts([]);
+			setUserWeight([]);
+			setArchive([]);
 		}
 	}, [isLoggedIn, setExercises, setWorkouts, setUserWeight, setArchive]);
 

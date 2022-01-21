@@ -1,5 +1,6 @@
 import React from 'react';
 import ExerciseList from './ExerciseListComponent';
+import SavedWorkouts from './SavedWorkoutsComponent'
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { baseUrl } from '../shared/baseUrl';
@@ -11,6 +12,7 @@ export default function Arsenal(props) {
 	const [isLoading, setLoading] = useState(false);
 
 	useEffect(() => {
+		console.log(props.workouts)
 		props.setLoggedIn(true);
 	});
 
@@ -79,11 +81,19 @@ export default function Arsenal(props) {
 					</Col>
 				</Row>
 				<Row>
-					<Col className="text-center my-auto mb-2">
-						~~Workouts Here~~
+					<Col className="text-center my-auto mb-3">
+						{props.workouts.map(workout => {
+							return (
+								<>
+									<Row className="my-4" key={workout._id}>
+										<SavedWorkouts workouts={props.workouts} setWorkouts={props.setWorkouts} workout={workout} />
+									</Row>
+									<hr />
+								</>
+							);
+						})}
 					</Col>
 				</Row>
-				<hr />
 				<Row className="mt-1 mx-sm-2">
 					<Col className="text-center cat">
 						<h5>Your Exercises</h5>
@@ -94,7 +104,7 @@ export default function Arsenal(props) {
 						<h5 className="text-center mb-0">Strength</h5>
 						{props.exercises.filter(exercise => exercise.strengthOrCardio === "strength").map(strengthExercise => {
 							return (
-								<Row className="my-2" key={strengthExercise._id}>
+								<Row className="my-3" key={strengthExercise._id}>
 									<ExerciseList exercises={props.exercises} setExercises={props.setExercises} exercise={strengthExercise} />
 								</Row>
 							);
@@ -104,7 +114,7 @@ export default function Arsenal(props) {
 						<h5 className="text-center mb-0">Cardio</h5>
 						{props.exercises.filter(exercise => exercise.strengthOrCardio === "cardio").map(cardioExercise => {
 							return (
-								<Row className="my-2" key={cardioExercise._id}>
+								<Row className="my-3" key={cardioExercise._id}>
 									<ExerciseList exercises={props.exercises} setExercises={props.setExercises} exercise={cardioExercise} />
 								</Row>
 							);

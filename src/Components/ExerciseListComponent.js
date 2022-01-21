@@ -7,9 +7,7 @@ export default function ExerciseList({ exercise, exercises, setExercises }) {
 	const [selected, setSelected] = useState(JSON.parse(localStorage.getItem('selected-exercises')) || []);
 
 	useEffect(() => {
-		return (() => {
-			localStorage.setItem('selected-exercises', JSON.stringify(exercises.filter(exercise => exercise.selected)))
-		});
+		localStorage.setItem('selected-exercises', JSON.stringify(exercises.filter(exercise => exercise.selected)));
 	}, [selected]);
 
 	function toggleSelect() {
@@ -42,12 +40,12 @@ export default function ExerciseList({ exercise, exercises, setExercises }) {
 
 	return (
 		<>
-			<Col sm="1" className="exercise-option">
-				<i onClick={deleteExercise} className="fa fa-trash fa-sm" />
+			<Col sm="1" className="">
+				<i onClick={deleteExercise} className="exercise-option fa fa-trash fa-sm" />
 			</Col>
 			<Col
 				className={`${exercise.selected ? 'exercise-selected' : 'exercise-name'} text-center`}
-				onClick={() => toggleSelect()}
+				onClick={toggleSelect}
 			>
 				{exercise.name} {exercise.selected ? <span className="ml-1"><em>(selected)</em></span> : null}
 			</Col>

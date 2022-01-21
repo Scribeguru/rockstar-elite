@@ -86,6 +86,9 @@ export default function Execute(props) {
 							.then(archiveData => {
 								props.setArchive(archiveData);
 								console.log(archiveData);
+								localStorage.clear();
+								setList([]);
+								alert('Archive logged.');
 							})
 					});
 			}
@@ -114,6 +117,9 @@ export default function Execute(props) {
 					.then(archiveData => {
 						props.setArchive(archiveData);
 						console.log(archiveData);
+						localStorage.clear();
+						setList([]);
+						alert('Archive logged.');
 					});
 			} catch (err) {
 				console.log(err);

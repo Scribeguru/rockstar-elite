@@ -80,9 +80,6 @@ export default function Main() {
 				<Route path="/execute"
 					render={() => <Execute
 						exercises={exercises}
-						workouts={workouts}
-						userWeight={userWeight}
-						archive={archive}
 						setExercises={setExercises}
 						setWorkouts={setWorkouts}
 						setUserWeight={setUserWeight}

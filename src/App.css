@@ -66,6 +66,7 @@ body::selection {
     cursor: pointer;
     font-weight: bold;
     font-style: italic;
+    user-select: none;
 }
 
 .exercise-option {

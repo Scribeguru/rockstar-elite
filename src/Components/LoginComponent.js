@@ -166,7 +166,7 @@ export default function Login(props) {
         </ModalHeader>
         <ModalBody className="text-center">
           <Form onSubmit={e => handleRegisterSubmit(e)}>
-            <Label htmlFor="registerUsername">Username:</Label>
+            <Label htmlFor="registerUsername" name="registerUsername">Username:</Label>
             <Input id="registerUsername" name="registerUsername" required />
             <Label htmlfor="registerPassword" name="registerPassword">Password:</Label>
             <Input type="password" id="registerPassword" name="registerPassword" required />
@@ -178,7 +178,10 @@ export default function Login(props) {
               className="shadow-none mt-4"
               size="lg"
               color="secondary"
-              outline>Register</Button>
+              outline
+            >
+              Register
+            </Button>
           </Form>
           {(isLoading) ? loading : null}
         </ModalBody>

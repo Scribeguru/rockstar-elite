@@ -97,6 +97,7 @@ body::selection {
 
 .greyed-out {
     opacity: .5;
+    user-select: none;
 }
 
 .grid {

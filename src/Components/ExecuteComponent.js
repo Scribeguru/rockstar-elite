@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Jumbotron, Container, Row, Col, Button, Input, Label, Form } from 'reactstrap';
+import { Jumbotron, Modal, ModalHeader, ModalBody, Container, Row, Col, Button, Input, Label, Form } from 'reactstrap';
 import { baseUrl } from '../shared/baseUrl';
 import SelectedList from './SelectedListComponent';
 
 export default function Execute(props) {
 
 	const [selectArr, setList] = useState(JSON.parse(localStorage.getItem('selected-exercises')) || []);
-	const [measurementSys, setSys] = useState(!!JSON.parse(localStorage.getItem('measurement-system')));
+	const [isMetric, setSys] = useState(!!JSON.parse(localStorage.getItem('is-metric')));
 	const [dragging, setdragging] = useState(false);
 	const [comments, setComments] = useState(false);
+	const [isModalOpen, modalSwitch] = useState(false);
 
 	const dragExercise = useRef();
 	const dragTarget = useRef();
@@ -19,62 +20,143 @@ export default function Execute(props) {
 	useEffect(() => {
 		props.setLoggedIn(true);
 		localStorage.setItem('selected-exercises', JSON.stringify(selectArr));
-		triggerValuePopulation.current.click();
+		if (selectArr.length) {
+			triggerValuePopulation.current.click();
+		}
 	}, [selectArr, setSys]);
 
-	async function handleSubmit(e) {
+	function toggleModal() {
+		modalSwitch((isModalOpen) => isModalOpen = !isModalOpen);
+	}
+
+	function handleArchiveSubmit(e) {
 		e.preventDefault();
-		let archiveObj = {};
-		let workoutObj = {};
-		console.log(e);
-		if (e.nativeEvent.submitter.name === "archiveLog") {
-			console.log(e.target.length-5);
 
-			let keys = Object.keys(localStorage).filter(key => key !== "selected-exercises");
-			let details = keys.map(key => {
+		let selectedNames = selectArr.map(exercise => exercise.name);
+		let keys = Object.keys(localStorage).filter(key => key !== "selected-exercises");
+		let details = keys.map(key => {
+			return { [key]: JSON.parse(localStorage.getItem(key)) }
+		});
+		let selectedDetails = keys.map(key => {
+			if (selectedNames.includes(key)) {
 				return { [key]: JSON.parse(localStorage.getItem(key)) }
-			});
-			// try {
-			// 	fetch(baseUrl + 'userWeight', {
-			// 		method: 'POST',
-			// 		credentials: 'include',
-			// 		headers: {
-			// 			'Content-Type': 'application/json'
-			// 		},
-			// 		body: JSON.stringify({
-			// 			weight: details.find(detail => detail['uWeight'])['uWeight'][e.target[e.target.length - 5].placeholder],
-			// 			system: 
-			// 		})
-			// 	})
-			// 	fetch(baseUrl + 'archive', {
-			// 		method: 'POST',
-			// 		credentials: 'include',
-			// 		headers: {
-			// 			'Content-Type': 'application/json'
-			// 		},
-			// 		body: JSON.stringify({
-			// 			userWeight:
-			// 		})
-			// 	});
-			// }
-			// catch (err) {
-			// 	console.log(err);
-			// }
+			}
+		}).filter(detail => !!detail === true);
 
-			console.log(details);
-
-			// for (let i = 1; i < e.target.length - 3; i++) {
-			// 	if (e.target[i].placeholder = "length") {
-			// 		archiveObj[e.target[i].name] = e.target[i].value;
-			// 	} else {
-					
-			// 	}
-
-			// 	console.log(archiveObj);
-			// }
+		if (e.target[e.target.length - 5].value) {
+			try {
+				fetch(baseUrl + 'userWeight', {
+					method: 'POST',
+					credentials: 'include',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						weight: parseInt(details.find(detail => detail['uWeight'])['uWeight'][e.target[e.target.length - 5].placeholder], 10),
+						systemIsMetric: !!details.find(detail => detail['is-metric']),
+						lastMeasured: new Date()
+					})
+				})
+					.then(res => {
+						return res.json();
+					})
+					.then(userWeightData => {
+						props.setUserWeight(userWeightData);
+						return userWeightData;
+					})
+					.then(userWeightData => {
+						fetch(baseUrl + 'archive', {
+							method: 'POST',
+							credentials: 'include',
+							headers: {
+								'Content-Type': 'application/json'
+							},
+							body: JSON.stringify({
+								userWeight: userWeightData._id,
+								exerciseDetails: selectedDetails,
+								date: new Date(),
+								comments: details.find(detail => {
+									return detail.comments
+								})['comments'][e.target[e.target.length - 4].placeholder]
+							})
+						})
+							.then(res => {
+								return res.json();
+							})
+							.then(archiveData => {
+								props.setArchive(archiveData);
+								console.log(archiveData);
+							})
+					});
+			}
+			catch (err) {
+				console.log(err);
+			}
+		} else {
+			try {
+				fetch(baseUrl + 'archive', {
+					method: 'POST',
+					credentials: 'include',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						exerciseDetails: selectedDetails,
+						date: new Date(),
+						comments: details.find(detail => {
+							return detail.comments
+						})['comments'][e.target[e.target.length - 4].placeholder]
+					})
+				})
+					.then(res => {
+						return res.json();
+					})
+					.then(archiveData => {
+						props.setArchive(archiveData);
+						console.log(archiveData);
+					});
+			} catch (err) {
+				console.log(err);
+			}
 		}
-		if (e.nativeEvent.submitter.name === "saveWorkout") {
+	}
 
+	function handleWorkoutSubmit(e) {
+		e.preventDefault();
+
+		let selectedNames = selectArr.map(exercise => exercise.name);
+		let keys = Object.keys(localStorage).filter(key => key !== "selected-exercises");
+		let selectedDetails = keys.map(key => {
+			if (selectedNames.includes(key)) {
+				return { [key]: JSON.parse(localStorage.getItem(key)) }
+			}
+		}).filter(detail => !!detail === true);
+
+		try {
+			fetch(baseUrl + 'workouts', {
+				method: 'POST',
+				credentials: 'include',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					name: e.target[0].value,
+					exercises: selectArr.map(exercise => exercise._id),
+					exerciseDetails: selectedDetails
+				})
+			})
+				.then(res => {
+					return res.json();
+				})
+				.then(workoutData => {
+					props.setWorkouts(workoutData);
+					console.log(workoutData);
+					toggleModal();
+				});
+		}
+		catch (err) {
+			console.log(err);
+			toggleModal();
 		}
 	}
 
@@ -138,7 +220,6 @@ export default function Execute(props) {
 
 	function manageArchive(e) {
 		(e.target.value) ? setComments(true) : setComments(false);
-		(selectArr.length) ? e.target.readOnly = false : e.target.readOnly = true;
 	}
 
 	function checkComments(e) {
@@ -153,9 +234,9 @@ export default function Execute(props) {
 	}
 
 	function toggleMeasurement(e) {
-		setSys(measurementSys => measurementSys = !measurementSys);
-		localStorage.setItem('measurement-system', !JSON.parse(localStorage.getItem('measurement-system')));
-		console.log(measurementSys);
+		setSys(isMetric => isMetric = !isMetric);
+		localStorage.setItem('is-metric', !JSON.parse(localStorage.getItem('is-metric')));
+		console.log(isMetric);
 	}
 
 	function consolidateDetails(e) {
@@ -168,11 +249,7 @@ export default function Execute(props) {
 	function loadFormValues(e) {
 		e.preventDefault();
 
-		if (JSON.parse(localStorage.getItem('comments')) && localStorage.getItem('comments')[e.target.form[e.target.form.length - 4].placeholder]) {
-			setComments(true)
-		}
-
-		let keys = Object.keys(localStorage).filter(key => key !== "selected-exercises" && key !== "measurement-system");
+		let keys = Object.keys(localStorage).filter(key => key !== "selected-exercises" && key !== "is-metric");
 		let details = keys.map(key => {
 			return { [key]: JSON.parse(localStorage.getItem(key)) }
 		});
@@ -183,65 +260,105 @@ export default function Execute(props) {
 				e.target.form[i].value = fieldData[0][e.target.form[i].name][e.target.form[i].placeholder] || null;
 			}
 		}
+
+		if (e.target.form[e.target.form.length - 4].value) {
+			setComments(true);
+		}
 	}
 
 	return (
 		<>
-			<Form onChange={e => consolidateDetails(e)} onSubmit={e => handleSubmit(e)} autoComplete="off">
-				<button ref={triggerValuePopulation} onClick={e => loadFormValues(e)} hidden />
-				<Container form fluid className="grid">
-					{mappedSelect}
-				</Container>
-				<Jumbotron fluid>
-					<Row className={(selectArr.length) ? "mt-5" : "mt-5 greyed-out"}>
-						<Col className="text-center mx-5">
-							<Label htmlFor="uWeight">Weigh-in Results:</Label>
-							<Input onKeyDown={e => uWeight(e)} id="uWeight" name="uWeight" placeholder='Enter your weight' />
-							<span className="exercise-name" onClick={e => toggleMeasurement(e)}>({(measurementSys) ? 'kgs' : 'lbs'})</span>
-						</Col>
-					</Row>
-					<Row className="mt-4">
-						<Col className={(selectArr.length) ? "text-center my-3" : "text-center my-3 greyed-out"}>
-							<Label htmlFor="comments">Comments:</Label><br />
-							<textarea id="comments" readOnly={(selectArr.length) ? false : true} name="comments" onChange={e => (manageArchive(e))} placeholder="Enter any thoughts or notes regarding your workout here — you can only archive your workout after doing this." />
-						</Col>
-						<Col xs="12" className={(selectArr.length) ? "text-center my-3" : "text-center my-3 greyed-out"}>
-							<Button
-								id="archiveLog"
-								name="archiveLog"
-								type="submit"
-								className={comments ? "shadow-none text-nowrap" : "shadow-none text-nowrap greyed-out"}
-								onClick={e => { checkComments(e) }}
-								size="lg"
-								color="secondary"
-								outline
-							>
-								Archive Log
-							</Button>
-						</Col>
-						<Col xs="12" className={(selectArr.length) ? "text-center my-2" : "text-center my-2 greyed-out"}>
-							<Button
-								id="saveWorkout"
-								name="saveWorkout"
-								type="submit"
-								className="shadow-none"
-								size="lg"
-								color="secondary"
-								outline
-							>
-								Save Workout
-							</Button>
-						</Col>
-						<Col xs="12" className="text-center my-2">
-							<Link to="/arsenal">
-								<Button className="shadow-none" size="lg" color="secondary" outline>
-									Arsenal
+			{(selectArr.length) ?
+				<>
+					<Form onChange={e => consolidateDetails(e)} onSubmit={e => handleArchiveSubmit(e)} autoComplete="off">
+						<button ref={triggerValuePopulation} onClick={e => loadFormValues(e)} hidden />
+						<Container form fluid className="grid">
+							{mappedSelect}
+						</Container>
+						<Jumbotron fluid>
+							<Row className={(selectArr.length) ? "mt-5" : "mt-5 greyed-out"}>
+								<Col className="text-center mx-5">
+									<Label htmlFor="uWeight">Weigh-in Results:</Label>
+									<Input onKeyDown={e => uWeight(e)} id="uWeight" name="uWeight" placeholder='Enter your weight' />
+									<span className="exercise-name" onClick={e => toggleMeasurement(e)}>({(isMetric) ? 'kgs' : 'lbs'})</span>
+								</Col>
+							</Row>
+							<Row className="mt-4">
+								<Col className={(selectArr.length) ? "text-center my-3" : "text-center my-3 greyed-out"}>
+									<Label htmlFor="comments">Comments:</Label><br />
+									<textarea id="comments" name="comments" onChange={e => (manageArchive(e))} placeholder="Enter any thoughts or notes regarding your workout here — you can only archive your workout after doing this." />
+								</Col>
+								<Col xs="12" className={(selectArr.length) ? "text-center my-3" : "text-center my-3 greyed-out"}>
+									<Button
+										id="archiveLog"
+										name="archiveLog"
+										type="submit"
+										className={comments ? "shadow-none text-nowrap" : "shadow-none text-nowrap greyed-out"}
+										onClick={e => { checkComments(e) }}
+										size="lg"
+										color="secondary"
+										outline
+									>
+										Archive Log
+									</Button>
+								</Col>
+								<Col xs="12" className={(selectArr.length) ? "text-center my-2" : "text-center my-2 greyed-out"}>
+									<Button
+										id="saveWorkout"
+										name="saveWorkout"
+										className="shadow-none"
+										size="lg"
+										color="secondary"
+										outline
+										onClick={toggleModal}
+									>
+										Save Workout
+									</Button>
+								</Col>
+								<Col xs="12" className="text-center my-2">
+									<Link to="/arsenal">
+										<Button className="shadow-none" size="lg" color="secondary" outline>
+											Arsenal
+										</Button>
+									</Link>
+								</Col>
+							</Row>
+						</Jumbotron>
+					</Form>
+					<Modal isOpen={isModalOpen} toggle={toggleModal}>
+						<ModalHeader toggle={toggleModal}>
+							<h4 className="title">Save Workout to Arsenal</h4>
+						</ModalHeader>
+						<ModalBody className="text-center">
+							<Form onSubmit={e => handleWorkoutSubmit(e)} autoComplete='off'>
+								<Label htmlFor="workoutName" name="workoutName">Name This Workout:</Label>
+								<Input id="workoutName" name="workoutName" required />
+								<Button id="saveNewWorkout"
+									name="saveNewWorkout"
+									type="submit"
+									className="shadow-none mt-4"
+									size="lg"
+									color="secondary"
+									outline
+								>
+									Save
 								</Button>
-							</Link>
-						</Col>
-					</Row>
-				</Jumbotron>
-			</Form>
+							</Form>
+						</ModalBody>
+					</Modal>
+				</> :
+				<Row>
+					<Col xs="12" className="text-center mt-5">
+						<h2 className="pt-5 text-center">Select some exercises from Arsenal.</h2>
+					</Col>
+					<Col xs="12" className="text-center mt-4">
+						<Link to="/arsenal">
+							<Button className="shadow-none" size="lg" color="secondary" outline>
+								Arsenal
+							</Button>
+						</Link>
+					</Col>
+				</Row>}
 		</>
 	);
 }

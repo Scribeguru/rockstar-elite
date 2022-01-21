@@ -44,10 +44,10 @@ export default function Main() {
 						console.log('userWeight: ', data[2]);
 						console.log('archive: ', data[3]);
 
-						setExercises(data[0]);
-						setWorkouts(data[1]);
+						setExercises([...data[0]]);
+						setWorkouts([...data[1]]);
 						setUserWeight(data[2]);
-						setArchive(data[3]);
+						setArchive([...data[3]]);
 					});
 			}
 			catch (err) {
@@ -79,6 +79,7 @@ export default function Main() {
 					/>} />
 				<Route path="/execute"
 					render={() => <Execute
+						workouts={workouts}
 						exercises={exercises}
 						setExercises={setExercises}
 						setWorkouts={setWorkouts}

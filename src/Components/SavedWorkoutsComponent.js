@@ -4,10 +4,6 @@ import { baseUrl } from '../shared/baseUrl';
 
 export default function SavedWorkouts({ workout, workouts, setWorkouts }) {
 
-  function prettyDetails() {
-    console.log(workout);
-  }
-
   function deleteWorkout() {
     try {
       fetch(baseUrl + 'workouts/' + workout._id, {
@@ -48,7 +44,7 @@ export default function SavedWorkouts({ workout, workouts, setWorkouts }) {
         <Col>
           {workout.exercises.map(exercise => {
             return (
-              <Col>{"(" + exercise.name + ")"} {prettyDetails()}</Col>
+              <Col>{"(" + exercise.name + ")"}</Col>
             );
           })}
         </Col>

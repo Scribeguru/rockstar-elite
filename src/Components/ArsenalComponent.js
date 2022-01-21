@@ -12,7 +12,6 @@ export default function Arsenal(props) {
 	const [isLoading, setLoading] = useState(false);
 
 	useEffect(() => {
-		console.log(props.workouts)
 		props.setLoggedIn(true);
 	});
 

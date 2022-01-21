@@ -23,7 +23,7 @@ export default function Execute(props) {
 		if (selectArr.length) {
 			triggerValuePopulation.current.click();
 		}
-	}, [selectArr, setSys]);
+	}, []);
 
 	function toggleModal() {
 		modalSwitch((isModalOpen) => isModalOpen = !isModalOpen);
@@ -86,8 +86,6 @@ export default function Execute(props) {
 							.then(archiveData => {
 								props.setArchive(archiveData);
 								console.log(archiveData);
-								localStorage.clear();
-								setList([]);
 								alert('Archive logged.');
 							})
 					});
@@ -117,8 +115,6 @@ export default function Execute(props) {
 					.then(archiveData => {
 						props.setArchive(archiveData);
 						console.log(archiveData);
-						localStorage.clear();
-						setList([]);
 						alert('Archive logged.');
 					});
 			} catch (err) {
@@ -130,14 +126,6 @@ export default function Execute(props) {
 	function handleWorkoutSubmit(e) {
 		e.preventDefault();
 
-		let selectedNames = selectArr.map(exercise => exercise.name);
-		let keys = Object.keys(localStorage).filter(key => key !== "selected-exercises");
-		let selectedDetails = keys.map(key => {
-			if (selectedNames.includes(key)) {
-				return { [key]: JSON.parse(localStorage.getItem(key)) }
-			}
-		}).filter(detail => !!detail === true);
-
 		try {
 			fetch(baseUrl + 'workouts', {
 				method: 'POST',
@@ -147,17 +135,17 @@ export default function Execute(props) {
 				},
 				body: JSON.stringify({
 					name: e.target[0].value,
-					exercises: selectArr.map(exercise => exercise._id),
-					exerciseDetails: selectedDetails
+					exercises: selectArr.map(exercise => exercise._id)
 				})
 			})
 				.then(res => {
 					return res.json();
 				})
 				.then(workoutData => {
-					props.setWorkouts(workoutData);
+					props.setWorkouts([...props.workouts, workoutData]);
 					console.log(workoutData);
 					toggleModal();
+					alert('Workout saved.')
 				});
 		}
 		catch (err) {

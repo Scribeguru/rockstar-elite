@@ -8,7 +8,7 @@ export default function ExerciseList({ exercise, exercises, setExercises }) {
 
 	useEffect(() => {
 		localStorage.setItem('selected-exercises', JSON.stringify(exercises.filter(exercise => exercise.selected)));
-	}, [selected]);
+	}, [selected, exercises]);
 
 	function toggleSelect() {
 		(selected.includes(exercise)) ? setSelected(selected.filter(toKeep => toKeep !== exercise))

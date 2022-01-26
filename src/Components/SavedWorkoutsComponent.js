@@ -2,13 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { Col } from 'reactstrap';
 import { baseUrl } from '../shared/baseUrl';
 
-export default function SavedWorkouts({ workout, workouts, setWorkouts, exercises, setExercises }) {
+export default function SavedWorkouts({ selected, setSelected, workout, workouts, setWorkouts, exercises, setExercises }) {
 
-  const [selected, setSelected] = useState(JSON.parse(localStorage.getItem('selected-exercises')) || []);
-
-  useEffect(() => {
-    localStorage.setItem('selected-exercises', JSON.stringify(exercises.filter(exercise => exercise.selected)));
-  }, [selected, exercises]);
+  function select() {
+    let currentIds = workout.exercises.map(exercise => exercise._id);
+    setSelected(exercises.filter(exercise => {
+      if (currentIds.includes(exercise._id)) {
+        return exercise;
+      }
+    }));
+    exercises.forEach(exercise => {
+      if (currentIds.includes(exercise._id)) {
+        exercise.selected = true;
+      }
+    });
+    console.log(selected);
+  }
 
   function deleteWorkout() {
     try {
@@ -32,22 +41,16 @@ export default function SavedWorkouts({ workout, workouts, setWorkouts, exercise
     }
   }
 
-  function toggleSelect() {
-    console.log(workout.exercises)
-    console.log(localStorage.getItem('selected-exercises'));
-  }
-
   return (
     <>
       <Col xs="4" className="my-auto">
         <i onClick={deleteWorkout} className="exercise-option fa fa-trash fa-sm" />
       </Col>
       <Col
-        className="exercise-name my-auto"
-        onClick={toggleSelect}
+        className={`${(workout.exercises.every(exercise => exercise.selected)) ? 'exercise-selected' : 'exercise-name'} text-center my-auto`}
+        onClick={select}
       >
-        {workout.name}
-        {/* {exercise.selected ? <span className="ml-1"><em>(selected)</em></span> : null} */}
+        {workout.name} {workout.exercises.every(exercise => exercise.selected) ? <span className="ml-1"><em>(selected)</em></span> : null}
       </Col>
       <Col xs="4">
         <Col>

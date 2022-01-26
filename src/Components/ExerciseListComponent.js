@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Col } from 'reactstrap';
 import { baseUrl } from '../shared/baseUrl';
 
-export default function ExerciseList({ exercise, exercises, setExercises }) {
-
-	const [selected, setSelected] = useState(JSON.parse(localStorage.getItem('selected-exercises')) || []);
+export default function ExerciseList({ selected, setSelected, exercise, exercises, setExercises }) {
 
 	useEffect(() => {
 		localStorage.setItem('selected-exercises', JSON.stringify(exercises.filter(exercise => exercise.selected)));

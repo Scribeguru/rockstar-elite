@@ -10,9 +10,11 @@ export default function Login(props) {
 
   useEffect(() => {
     props.setLoggedIn(false);
+    localStorage.clear();
   });
 
-  const forceClick = useRef();
+  const userClick = useRef();
+  const guestClick = useRef();
 
   const loading = (
     <>
@@ -31,7 +33,11 @@ export default function Login(props) {
   }
 
   function transportUser() {
-    forceClick.current.click();
+    userClick.current.click();
+  }
+
+  function transportGuest() {
+    guestClick.current.click();
   }
 
   async function handleLoginSubmit(e) {
@@ -55,7 +61,7 @@ export default function Login(props) {
           return res.json()
         })
         .then(loginStatus => {
-          (loginStatus.success) ? transportUser() : alert('Please try again.')
+          (loginStatus.success) ? transportUser() : alert('Please try again.');
         });
     }
     catch (err) {
@@ -110,13 +116,18 @@ export default function Login(props) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        username: 'guest',
-        password: 'guest'
+        username: "guest",
+        password: "guest"
       })
     })
-    return "/arsenal";
+      .then(res => {
+        return res.json();
+      })
+      .then(loginStatus => {
+        (loginStatus.success) ? transportGuest() : alert('Please try again.');
+      });
   }
-
+  
   return (
     <Container fluid={true}>
       <Row>
@@ -127,7 +138,7 @@ export default function Login(props) {
               <Input name="username" id="username" required />
               <Label className="mt-3 title" htmlFor="password">Password:</Label>
               <Input type="password" name="password" id="password" required />
-              <Link to="/arsenal" ref={forceClick} replace hidden />
+              <Link to="/arsenal" ref={userClick} replace hidden />
               <Button
                 id="logIn"
                 name="logIn"
@@ -153,11 +164,15 @@ export default function Login(props) {
           </Button>
         </Col>
         <Col xs="12" className="text-center mt-5">
-          <Link to={guestLogin}>
-            <Button className="shadow-none" size="lg" color="secondary" outline >
-              Log In as Guest
-            </Button>
-          </Link>
+          <Link to="/arsenal" ref={guestClick} replace hidden />
+          <Button
+            className="shadow-none"
+            size="lg"
+            color="secondary"
+            outline
+            onClick={guestLogin}>
+            Log In as Guest
+          </Button>
         </Col>
       </Row>
       <Modal isOpen={isModalOpen} toggle={toggleModal}>

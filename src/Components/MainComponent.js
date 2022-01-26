@@ -34,11 +34,14 @@ export default function Main() {
 					})
 				])
 					.then(res => {
-						return Promise.all(res.map(response => {
-							return response.json();
-						}))
+						return (Promise.all(res.map(response => {
+							console.log(response)
+								return response.json();
+							
+						})));
 					})
 					.then(data => {
+						console.log(data);
 						console.log('exercises: ', data[0]);
 						console.log('workouts: ', data[1]);
 						console.log('userWeight: ', data[2]);
@@ -48,7 +51,10 @@ export default function Main() {
 						setWorkouts([...data[1]]);
 						setUserWeight(data[2]);
 						setArchive([...data[3]]);
-					});
+					})
+					.catch(err => {
+						console.log(err);
+					})
 			}
 			catch (err) {
 				alert(err);
@@ -71,6 +77,10 @@ export default function Main() {
 			<Switch>
 				<Route path="/login"
 					render={() => <Login
+						setExercises={setExercises}
+						setWorkouts={setWorkouts}
+						setUserWeight={setUserWeight}
+						setArchive={setArchive}
 						isLoggedIn={isLoggedIn}
 						setLoggedIn={setLoggedIn}
 					/>} />

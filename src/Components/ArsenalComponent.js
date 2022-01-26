@@ -10,6 +10,7 @@ export default function Arsenal(props) {
 
 	const [isModalOpen, modalSwitch] = useState(false);
 	const [isLoading, setLoading] = useState(false);
+	const [selected, setSelected] = useState(JSON.parse(localStorage.getItem('selected-exercises')) || []);
 
 	useEffect(() => {
 		props.setLoggedIn(true);
@@ -49,7 +50,7 @@ export default function Arsenal(props) {
 						props.setExercises([...props.exercises, res]);
 						setLoading(false);
 						toggleModal();
-						console.log(res);
+						console.log(props.exercises);
 					});
 
 			}
@@ -87,7 +88,7 @@ export default function Arsenal(props) {
 							return (
 								<>
 									<Row className="my-4" key={workout._id}>
-										<SavedWorkouts workouts={props.workouts} setWorkouts={props.setWorkouts} workout={workout}
+										<SavedWorkouts selected={selected} setSelected={setSelected} workouts={props.workouts} setWorkouts={props.setWorkouts} workout={workout}
 											exercises={props.exercises} setExercises={props.setExercises} />
 									</Row>
 									<hr />
@@ -107,7 +108,7 @@ export default function Arsenal(props) {
 						{props.exercises.filter(exercise => exercise.strengthOrCardio === "strength").map(strengthExercise => {
 							return (
 								<Row className="my-3" key={strengthExercise._id}>
-									<ExerciseList exercises={props.exercises} setExercises={props.setExercises} exercise={strengthExercise} />
+									<ExerciseList selected={selected} setSelected={setSelected} exercises={props.exercises} setExercises={props.setExercises} exercise={strengthExercise} />
 								</Row>
 							);
 						})}
@@ -117,7 +118,7 @@ export default function Arsenal(props) {
 						{props.exercises.filter(exercise => exercise.strengthOrCardio === "cardio").map(cardioExercise => {
 							return (
 								<Row className="my-3" key={cardioExercise._id}>
-									<ExerciseList exercises={props.exercises} setExercises={props.setExercises} exercise={cardioExercise} />
+									<ExerciseList selected={selected} setSelected={setSelected} exercises={props.exercises} setExercises={props.setExercises} exercise={cardioExercise} />
 								</Row>
 							);
 						})}

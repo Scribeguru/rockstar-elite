@@ -5,18 +5,22 @@ import { baseUrl } from '../shared/baseUrl';
 export default function SavedWorkouts({ selected, setSelected, workout, workouts, setWorkouts, exercises, setExercises }) {
 
   function select() {
-    let currentIds = workout.exercises.map(exercise => exercise._id);
+    let currentExercises = workout.exercises.map(exercise => exercise.name + exercise.strengthOrCardio);
     setSelected(exercises.filter(exercise => {
-      if (currentIds.includes(exercise._id)) {
+      let name = exercise.name;
+      let strengthOrCardio = exercise.strengthOrCardio;
+      if (currentExercises.includes(name + strengthOrCardio)) {
         return exercise;
       }
     }));
     exercises.forEach(exercise => {
-      if (currentIds.includes(exercise._id)) {
+      let name = exercise.name;
+      let strengthOrCardio = exercise.strengthOrCardio;
+      if (currentExercises.includes(name + strengthOrCardio)) {
         exercise.selected = true;
       }
     });
-    console.log(selected);
+    console.log(selected, currentExercises);
   }
 
   function deleteWorkout() {

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Col } from 'reactstrap';
 import { baseUrl } from '../shared/baseUrl';
 
-export default function ExerciseList({ selected, setSelected, exercise, exercises, setExercises }) {
+export default function ExerciseList({ workouts, selected, setSelected, exercise, exercises, setExercises }) {
 
 	useEffect(() => {
 		localStorage.setItem('selected-exercises', JSON.stringify(exercises.filter(exercise => exercise.selected)));
@@ -15,6 +15,11 @@ export default function ExerciseList({ selected, setSelected, exercise, exercise
 	}
 
 	function deleteExercise() {
+		let workoutExercises = workouts.map(workout => workout.exercises).flat();
+		if (workoutExercises.map(exercise => exercise.name + exercise.strengthOrCardio)
+			.includes(exercise.name + exercise.strengthOrCardio)) {
+				alert('The workout(s) containing this exercise will no longer include it.');
+		}
 		try {
 			fetch(baseUrl + 'exercises/' + exercise._id, {
 				method: 'DELETE',

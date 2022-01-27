@@ -23,7 +23,7 @@ export default function Execute(props) {
 		if (selectArr.length) {
 			triggerValuePopulation.current.click();
 		}
-	}, []);
+	});
 
 	function toggleModal() {
 		modalSwitch((isModalOpen) => isModalOpen = !isModalOpen);
@@ -40,7 +40,7 @@ export default function Execute(props) {
 		let selectedDetails = keys.map(key => {
 			if (selectedNames.includes(key)) {
 				return { [key]: JSON.parse(localStorage.getItem(key)) }
-			}
+			} else return undefined;
 		}).filter(detail => !!detail === true);
 
 		if (e.target[e.target.length - 5].value) {

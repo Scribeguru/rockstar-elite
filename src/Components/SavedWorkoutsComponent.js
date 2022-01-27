@@ -2,7 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { Col } from 'reactstrap';
 import { baseUrl } from '../shared/baseUrl';
 
-export default function SavedWorkouts({ selected, setSelected, workout, workouts, setWorkouts, exercises, setExercises }) {
+export default function SavedWorkouts({ selected, setSelected, workout, workouts, setWorkouts, exercises }) {
+
+  useEffect(() => {
+    let exerciseArr = exercises.map(exercise => exercise.name + exercise.strengthOrCardio);
+    if (!exerciseArr.includes(exercise => workout.exercises.map(exercise => exercise.name + exercise.strengthOrCardio).includes(exercise))) {
+      workout.exercises = workout.exercises.filter(exercise => {
+        return exercise !== workout.exercises.find(exercise => {
+          return !exerciseArr.includes(exercise.name + exercise.strengthOrCardio);
+        });
+      });
+    }
+  }, [exercises]);
 
   function select() {
     let currentExercises = workout.exercises.map(exercise => exercise.name + exercise.strengthOrCardio);
@@ -51,16 +62,16 @@ export default function SavedWorkouts({ selected, setSelected, workout, workouts
         <i onClick={deleteWorkout} className="exercise-option fa fa-trash fa-sm" />
       </Col>
       <Col
-        className={`${(workout.exercises.every(exercise => exercise.selected)) ? 'exercise-selected' : 'exercise-name'} text-center my-auto`}
+        className={'exercise-name text-center my-auto'}
         onClick={select}
       >
-        {workout.name} {workout.exercises.every(exercise => exercise.selected) ? <span className="ml-1"><em>(selected)</em></span> : null}
+        {workout.name}
       </Col>
       <Col xs="4">
         <Col>
           {workout.exercises.map(exercise => {
             return (
-              <Col>{"(" + exercise.name + ")"}</Col>
+              <Col key={exercise._id}>{"(" + exercise.name + ")"}</Col>
             );
           })}
         </Col>

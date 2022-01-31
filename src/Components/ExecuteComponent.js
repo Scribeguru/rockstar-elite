@@ -38,9 +38,7 @@ export default function Execute(props) {
 			return { [key]: JSON.parse(localStorage.getItem(key)) }
 		});
 		let selectedDetails = keys.map(key => {
-			if (selectedNames.includes(key)) {
-				return { [key]: JSON.parse(localStorage.getItem(key)) }
-			} else return undefined;
+			return (selectedNames.includes(key)) ? { [key]: JSON.parse(localStorage.getItem(key)) } : null;
 		}).filter(detail => !!detail === true);
 
 		if (e.target[e.target.length - 5].value) {

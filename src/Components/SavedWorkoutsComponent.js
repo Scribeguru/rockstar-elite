@@ -16,22 +16,36 @@ export default function SavedWorkouts({ selected, setSelected, workout, workouts
   }, [exercises]);
 
   function select() {
-    let currentExercises = workout.exercises.map(exercise => exercise.name + exercise.strengthOrCardio);
+    let workoutExercises = workout.exercises.map(exercise => exercise.name + exercise.strengthOrCardio);
+
+    let selectedExercises = exercises.map(exercise => {
+      return (exercise.selected) ? exercise.name + exercise.strengthOrCardio : null;
+    }).filter(exercise => !!exercise === true).sort();
+
+    let selectedWorkoutExercises = workoutExercises.filter(exercise => {
+      return (selectedExercises.includes(exercise)) ? exercise : null
+    }).filter(exercise => !!exercise === true).sort();
+
+
     setSelected(exercises.filter(exercise => {
-      let name = exercise.name;
-      let strengthOrCardio = exercise.strengthOrCardio;
-      if (currentExercises.includes(name + strengthOrCardio)) {
+      let idStr = exercise.name + exercise.strengthOrCardio;
+      if (!selectedExercises.includes(idStr) && workoutExercises.includes(idStr) && selectedWorkoutExercises.length !== workoutExercises.length) {
         return exercise;
+      } else if (workoutExercises.includes(idStr) && selectedWorkoutExercises.length === workoutExercises.length) {
+        return selected.filter(exercise => {
+          return (workoutExercises.includes(exercise)) ? null : exercise;
+        })
       }
     }));
+
     exercises.forEach(exercise => {
-      let name = exercise.name;
-      let strengthOrCardio = exercise.strengthOrCardio;
-      if (currentExercises.includes(name + strengthOrCardio)) {
+      let idStr = exercise.name + exercise.strengthOrCardio;
+      if (!selectedExercises.includes(idStr) && workoutExercises.includes(idStr) && selectedWorkoutExercises.length !== workoutExercises.length) {
         exercise.selected = true;
+      } else if (workoutExercises.includes(idStr) && selectedWorkoutExercises.length === workoutExercises.length) {
+        exercise.selected = false;
       }
     });
-    console.log(selected, currentExercises);
   }
 
   function deleteWorkout() {

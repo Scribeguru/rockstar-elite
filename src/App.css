@@ -11,6 +11,12 @@ body::selection {
     background-color: #6c757d;
 }
 
+.archiveMenu {
+    padding: 0;
+    border: 1px solid red;
+    background-color: #22242e;
+}
+
 .btn {
     border-radius: 0;
     padding: 0.em;
@@ -126,6 +132,7 @@ li {
 .links {
     text-decoration: none;
     color: #ed674e;
+    cursor: pointer;
 }
 
 .links:hover {

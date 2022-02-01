@@ -1,5 +1,5 @@
 import { Route, Switch, Redirect } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { baseUrl } from '../shared/baseUrl';
 import Login from './LoginComponent';
 import Header from './HeaderComponent';
@@ -59,11 +59,6 @@ export default function Main() {
 			catch (err) {
 				alert(err);
 			}
-		} else {
-			setExercises([]);
-			setWorkouts([]);
-			setUserWeight([]);
-			setArchive([]);
 		}
 	}, [isLoggedIn, setExercises, setWorkouts, setUserWeight, setArchive]);
 

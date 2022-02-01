@@ -6,6 +6,26 @@ export default function SavedWorkouts({ selected, setSelected, workout, workouts
 
   useEffect(() => {
     let exerciseArr = exercises.map(exercise => exercise.name + exercise.strengthOrCardio);
+    if (!workout.exercises.length) {
+      try {
+        fetch(baseUrl + 'workouts/' + workout._id, {
+          method: 'DELETE',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        })
+          .then(res => {
+            return res.json();
+          })
+          .then(res => {
+            setWorkouts(workouts.filter(workout => workout._id !== res._id));
+          })
+      }
+      catch (err) {
+        console.log(err);
+      }
+    }
     if (!exerciseArr.includes(exercise => workout.exercises.map(exercise => exercise.name + exercise.strengthOrCardio).includes(exercise))) {
       workout.exercises = workout.exercises.filter(exercise => {
         return exercise !== workout.exercises.find(exercise => {
@@ -13,20 +33,17 @@ export default function SavedWorkouts({ selected, setSelected, workout, workouts
         });
       });
     }
-  }, [exercises]);
+  }, [exercises, workouts]);
 
   function select() {
     let workoutExercises = workout.exercises.map(exercise => exercise.name + exercise.strengthOrCardio);
-
     let selectedExercises = exercises.map(exercise => {
       return (exercise.selected) ? exercise.name + exercise.strengthOrCardio : null;
     }).filter(exercise => !!exercise === true).sort();
-
     let selectedWorkoutExercises = workoutExercises.filter(exercise => {
       return (selectedExercises.includes(exercise)) ? exercise : null
     }).filter(exercise => !!exercise === true).sort();
-
-
+    
     setSelected(exercises.filter(exercise => {
       let idStr = exercise.name + exercise.strengthOrCardio;
       if (!selectedExercises.includes(idStr) && workoutExercises.includes(idStr) && selectedWorkoutExercises.length !== workoutExercises.length) {
@@ -37,7 +54,6 @@ export default function SavedWorkouts({ selected, setSelected, workout, workouts
         })
       }
     }));
-
     exercises.forEach(exercise => {
       let idStr = exercise.name + exercise.strengthOrCardio;
       if (!selectedExercises.includes(idStr) && workoutExercises.includes(idStr) && selectedWorkoutExercises.length !== workoutExercises.length) {
@@ -62,11 +78,10 @@ export default function SavedWorkouts({ selected, setSelected, workout, workouts
         })
         .then(res => {
           setWorkouts(workouts.filter(workout => workout._id !== res._id));
-          console.log(res);
         })
     }
     catch (err) {
-      alert(err);
+      console.log(err);
     }
   }
 

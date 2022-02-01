@@ -108,7 +108,7 @@ export default function Arsenal(props) {
 						{props.exercises.filter(exercise => exercise.strengthOrCardio === "strength").map(strengthExercise => {
 							return (
 								<Row className="my-3" key={strengthExercise._id}>
-									<ExerciseList workouts={props.workouts} selected={selected} setSelected={setSelected} exercises={props.exercises} setExercises={props.setExercises} exercise={strengthExercise} />
+									<ExerciseList workouts={props.workouts} setWorkouts={props.setWorkouts} selected={selected} setSelected={setSelected} exercises={props.exercises} setExercises={props.setExercises} exercise={strengthExercise} />
 								</Row>
 							);
 						})}
@@ -118,7 +118,7 @@ export default function Arsenal(props) {
 						{props.exercises.filter(exercise => exercise.strengthOrCardio === "cardio").map(cardioExercise => {
 							return (
 								<Row className="my-3" key={cardioExercise._id}>
-									<ExerciseList workouts={props.workouts} selected={selected} setSelected={setSelected} exercises={props.exercises} setExercises={props.setExercises} exercise={cardioExercise} />
+									<ExerciseList workouts={props.workouts} setWorkouts={props.setWorkouts} selected={selected} setSelected={setSelected} exercises={props.exercises} setExercises={props.setExercises} exercise={cardioExercise} />
 								</Row>
 							);
 						})}

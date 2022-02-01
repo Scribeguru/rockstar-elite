@@ -40,7 +40,6 @@ export default function Execute(props) {
 		let selectedDetails = keys.map(key => {
 			return (selectedNames.includes(key)) ? { [key]: JSON.parse(localStorage.getItem(key)) } : null;
 		}).filter(detail => !!detail === true);
-
 		if (e.target[e.target.length - 5].value) {
 			try {
 				fetch(baseUrl + 'userWeight', {

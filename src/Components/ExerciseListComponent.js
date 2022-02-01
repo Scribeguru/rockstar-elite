@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Col } from 'reactstrap';
 import { baseUrl } from '../shared/baseUrl';
 
-export default function ExerciseList({ workouts, selected, setSelected, exercise, exercises, setExercises }) {
+export default function ExerciseList({ workouts, setWorkouts, selected, setSelected, exercise, exercises, setExercises }) {
 
 	useEffect(() => {
 		localStorage.setItem('selected-exercises', JSON.stringify(exercises.filter(exercise => exercise.selected)));
@@ -15,10 +15,13 @@ export default function ExerciseList({ workouts, selected, setSelected, exercise
 	}
 
 	function deleteExercise() {
-		let workoutExercises = workouts.map(workout => workout.exercises).flat();
-		if (workoutExercises.map(exercise => exercise.name + exercise.strengthOrCardio)
-			.includes(exercise.name + exercise.strengthOrCardio)) {
-				alert('The workout(s) containing this exercise will no longer include it.');
+		let workoutExercises = workouts.map(workout => workout.exercises).flat()
+			.map(exercise => exercise.name + exercise.strengthOrCardio);
+		if (workoutExercises.includes(exercise.name + exercise.strengthOrCardio) && workoutExercises.length > 1) {
+			alert('The workout(s) containing this exercise will no longer include it.');
+		}
+		if (workoutExercises.includes(exercise.name + exercise.strengthOrCardio) && workoutExercises.length === 1) {
+			alert('The workout(s) containing this exercise will no longer include it.\n\nDeleting the final exercise in a workout will also delete the workout.');
 		}
 		try {
 			fetch(baseUrl + 'exercises/' + exercise._id, {
@@ -33,7 +36,7 @@ export default function ExerciseList({ workouts, selected, setSelected, exercise
 				})
 				.then(res => {
 					setExercises(exercises.filter(exercise => exercise._id !== res._id));
-					console.log(res);
+					setWorkouts([...workouts]);
 				});
 		}
 		catch (err) {

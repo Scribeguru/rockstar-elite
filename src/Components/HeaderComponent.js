@@ -1,13 +1,20 @@
-import { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Jumbotron, Container, Row, Col } from 'reactstrap';
+import { Jumbotron, Container, Row, Col, Collapse, CardBody, Card } from 'reactstrap';
 import { baseUrl } from '../shared/baseUrl';
+import Archive from './ArchiveComponent';
 
 export default function Header(props) {
 
+	const [isCollapsed, setCollapsed] = useState(false);
+
 	useEffect(() => {
 		lastMeasured();
-	}, [props.userWeight])
+	}, [props.userWeight]);
+
+	function toggleCollapse() {
+		setCollapsed((isCollapsed) => isCollapsed = !isCollapsed);
+	}
 
 	function currentDate() {
 		let today = new Date();
@@ -20,14 +27,14 @@ export default function Header(props) {
 	function lastMeasured() {
 		let mostRecent = new Date(props.userWeight.lastMeasured);
 
-			let month = mostRecent.getMonth();
-			let day = mostRecent.getDate();
-			let year = mostRecent.getFullYear();
-			if (day) {
-				return `${month + 1}/${day}/${year}`;
-			} else {
-				return "--"
-			}
+		let month = mostRecent.getMonth();
+		let day = mostRecent.getDate();
+		let year = mostRecent.getFullYear();
+		if (day) {
+			return `${month + 1}/${day}/${year}`;
+		} else {
+			return "--"
+		}
 	}
 
 	function logout() {
@@ -55,7 +62,7 @@ export default function Header(props) {
 				</Row>
 				<Row hidden={(props.isLoggedIn) ? false : true}>
 					<Col className="text-center">
-						<h5><Link className="links">Archive</Link></h5>
+						<h5><span className="links" onClick={toggleCollapse}>Archive</span></h5>
 					</Col>
 					<Col className="text-center">
 						<h5><Link to="/about" className="links">About</Link></h5>
@@ -65,6 +72,18 @@ export default function Header(props) {
 							<Link to="/login" className="links">Logout</Link>
 						</h5>
 					</Col>
+					<Collapse isOpen={isCollapsed} className="archiveMenu">
+						{props.archive.map(archive => {
+							return (
+								<Row key={archive._id}>
+									<Archive archive={props.archive} setArchive={props.setArchive} />
+								</Row>
+							);
+						})}
+							<Row>
+								
+							</Row>
+						</Collapse>
 				</Row>
 			</Container>
 		</Jumbotron>

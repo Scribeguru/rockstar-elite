@@ -29,7 +29,7 @@ export default function ExerciseList({ workouts, setWorkouts, selected, setSelec
 				credentials: 'include',
 				headers: {
 					'Content-Type': 'application/json'
-				},
+				}
 			})
 				.then(res => {
 					return res.json();
@@ -40,7 +40,7 @@ export default function ExerciseList({ workouts, setWorkouts, selected, setSelec
 				});
 		}
 		catch (err) {
-			alert(err);
+			console.log(err);
 		}
 	}
 

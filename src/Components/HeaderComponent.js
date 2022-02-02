@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Jumbotron, Container, Row, Col, Collapse, CardBody, Card } from 'reactstrap';
+import { Jumbotron, Container, Row, Col, Collapse } from 'reactstrap';
 import { baseUrl } from '../shared/baseUrl';
 import Archive from './ArchiveComponent';
 
@@ -13,9 +13,9 @@ export default function Header(props) {
 	}, [props.userWeight]);
 
 	function toggleCollapse() {
-		setCollapsed((isCollapsed) => isCollapsed = !isCollapsed);
+		setCollapsed(isCollapsed => isCollapsed = !isCollapsed);
 	}
-
+console.log(props.archive);
 	function currentDate() {
 		let today = new Date();
 		let month = today.getMonth();
@@ -72,18 +72,18 @@ export default function Header(props) {
 							<Link to="/login" className="links">Logout</Link>
 						</h5>
 					</Col>
-					<Collapse isOpen={isCollapsed} className="archiveMenu">
-						{props.archive.map(archive => {
+					<Collapse isOpen={isCollapsed}>
+						{props.archive.map(log => {
 							return (
-								<Row key={archive._id}>
-									<Archive archive={props.archive} setArchive={props.setArchive} />
-								</Row>
+								<>
+									<Row key={log._id} className="mb-3">
+										<Archive log={log} archive={props.archive} setArchive={props.setArchive} />
+									</Row>
+									<hr />
+								</>
 							);
 						})}
-							<Row>
-								
-							</Row>
-						</Collapse>
+					</Collapse>
 				</Row>
 			</Container>
 		</Jumbotron>

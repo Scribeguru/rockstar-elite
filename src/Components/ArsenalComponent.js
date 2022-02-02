@@ -102,7 +102,7 @@ export default function Arsenal(props) {
 						<h5>Your Exercises</h5>
 					</Col>
 				</Row>
-				<Row>
+				<Row className="mt-3">
 					<Col className="cat mb-3">
 						<h5 className="text-center mb-0">Strength</h5>
 						{props.exercises.filter(exercise => exercise.strengthOrCardio === "strength").map(strengthExercise => {

@@ -45,7 +45,7 @@ export default function Main() {
 						console.log('exercises: ', data[0]);
 						console.log('workouts: ', data[1]);
 						console.log('userWeight: ', data[2]);
-						console.log('archive: ', data[3]);
+						console.log('archive: ', data[3].reverse());
 
 						setExercises([...data[0]]);
 						setWorkouts([...data[1]]);
@@ -91,6 +91,7 @@ export default function Main() {
 					render={() => <Execute
 						workouts={workouts}
 						exercises={exercises}
+						archive={archive}
 						setExercises={setExercises}
 						setWorkouts={setWorkouts}
 						setUserWeight={setUserWeight}

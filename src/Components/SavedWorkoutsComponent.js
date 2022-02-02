@@ -13,7 +13,7 @@ export default function SavedWorkouts({ selected, setSelected, workout, workouts
           credentials: 'include',
           headers: {
             'Content-Type': 'application/json'
-          },
+          }
         })
           .then(res => {
             return res.json();

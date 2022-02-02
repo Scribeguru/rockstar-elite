@@ -26,7 +26,12 @@ export default function Execute(props) {
 	});
 
 	function toggleModal() {
-		modalSwitch((isModalOpen) => isModalOpen = !isModalOpen);
+		modalSwitch(isModalOpen => isModalOpen = !isModalOpen);
+	}
+
+	function toggleMeasurement(e) {
+		setSys(isMetric => isMetric = !isMetric);
+		localStorage.setItem('is-metric', !JSON.parse(localStorage.getItem('is-metric')));
 	}
 
 	function handleArchiveSubmit(e) {
@@ -81,7 +86,7 @@ export default function Execute(props) {
 								return res.json();
 							})
 							.then(archiveData => {
-								props.setArchive(archiveData);
+								props.setArchive([...props.archive, archiveData]);
 								console.log(archiveData);
 								alert('Archive logged.');
 							})
@@ -110,7 +115,7 @@ export default function Execute(props) {
 						return res.json();
 					})
 					.then(archiveData => {
-						props.setArchive(archiveData);
+						props.setArchive([archiveData, ...props.archive ]);
 						console.log(archiveData);
 						alert('Archive logged.');
 					});
@@ -224,12 +229,6 @@ export default function Execute(props) {
 			e.target.readOnly = false : e.target.readOnly = true;
 	}
 
-	function toggleMeasurement(e) {
-		setSys(isMetric => isMetric = !isMetric);
-		localStorage.setItem('is-metric', !JSON.parse(localStorage.getItem('is-metric')));
-		console.log(isMetric);
-	}
-
 	function consolidateDetails(e) {
 		localStorage.setItem(e.target.name, JSON.stringify({
 			...JSON.parse(localStorage.getItem(e.target.name)),
@@ -271,7 +270,7 @@ export default function Execute(props) {
 								<Col className="text-center mx-5">
 									<Label htmlFor="uWeight">Weigh-in Results:</Label>
 									<Input onKeyDown={e => uWeight(e)} id="uWeight" name="uWeight" placeholder='Enter your weight' />
-									<span className="exercise-name" onClick={e => toggleMeasurement(e)}>({(isMetric) ? 'kgs' : 'lbs'})</span>
+										<span className="exercise-name"  onClick={e => toggleMeasurement(e)}>({(isMetric) ? 'kgs' : 'lbs'})</span>
 								</Col>
 							</Row>
 							<Row className="mt-4">

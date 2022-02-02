@@ -339,7 +339,7 @@ export default function Execute(props) {
 				</> :
 				<Row>
 					<Col xs="12" className="text-center mt-5">
-						<h2 className="pt-5 text-center">Select some exercises from Arsenal.</h2>
+						<h2 className="pt-5 text-center">Select exercise(s) from <span className="title">Arsenal</span>.</h2>
 					</Col>
 					<Col xs="12" className="text-center mt-4">
 						<Link to="/arsenal">

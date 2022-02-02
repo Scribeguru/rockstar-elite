@@ -7,11 +7,13 @@ export default function About() {
 		<Container>
 			<Row>
 				<Col className="text-center">
-					Rockstar Elite is a personal workout assembling application. You can create, edit, store, and delete your exercises and workouts — as well as track your weight over time.
+					<h4>
+						<span className="title">Rockstar Elite</span> is a personal workout assembling application. You can create cardio and strength exercises in <span className="title">Arsenal</span>, then use the <span className="title">Execute</span> page to keep track of your numbers during the workout. You can also save a cluster of exercises as a workout to make them easier to access, and archive your day's work to reflect on the progress you make over time.<br /><br /><span className="title">Thanks for using Rockstar Elite!</span>
+					</h4>
 				</Col>
 			</Row>
 			<Row className="mt-5">
-				<Col className="text-center">
+				<Col className="text-center" hidden={(JSON.parse(localStorage.getItem('selected-exercises')).length) ? false : true} >
 					<Link to="/execute">
 						<Button className="shadow-none" size="lg" color="secondary" outline>
 							Execute

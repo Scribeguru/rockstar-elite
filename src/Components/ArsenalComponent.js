@@ -76,55 +76,58 @@ export default function Arsenal(props) {
 
 	return (
 		<>
-			<Container fluid={true} className="grid">
-				<Row className="mt-1 mx-sm-2">
-					<Col className="text-center cat">
-						<h5>Your Workouts</h5>
-					</Col>
-				</Row>
-				<Row>
-					<Col className="text-center my-auto mb-3">
-						{props.workouts.map(workout => {
-							return (
-								<>
-									<Row className="my-4" key={workout._id}>
-										<SavedWorkouts selected={selected} setSelected={setSelected} workouts={props.workouts} setWorkouts={props.setWorkouts} workout={workout}
-											exercises={props.exercises} />
-									</Row>
-									<hr />
-								</>
-							);
-						})}
-					</Col>
-				</Row>
-				<Row className="mt-1 mx-sm-2">
-					<Col className="text-center cat">
-						<h5>Your Exercises</h5>
-					</Col>
-				</Row>
-				<Row className="mt-3">
-					<Col className="cat mb-3">
-						<h5 className="text-center mb-0">Strength</h5>
-						{props.exercises.filter(exercise => exercise.strengthOrCardio === "strength").map(strengthExercise => {
-							return (
-								<Row className="my-3" key={strengthExercise._id}>
-									<ExerciseList workouts={props.workouts} setWorkouts={props.setWorkouts} selected={selected} setSelected={setSelected} exercises={props.exercises} setExercises={props.setExercises} exercise={strengthExercise} />
-								</Row>
-							);
-						})}
-					</Col>
-					<Col className="cat mb-3">
-						<h5 className="text-center mb-0">Cardio</h5>
-						{props.exercises.filter(exercise => exercise.strengthOrCardio === "cardio").map(cardioExercise => {
-							return (
-								<Row className="my-3" key={cardioExercise._id}>
-									<ExerciseList workouts={props.workouts} setWorkouts={props.setWorkouts} selected={selected} setSelected={setSelected} exercises={props.exercises} setExercises={props.setExercises} exercise={cardioExercise} />
-								</Row>
-							);
-						})}
-					</Col>
-				</Row>
-			</Container>
+		{(props.exercises.length) ? 
+		<Container fluid={true} className="grid">
+		<Row className="mt-1 mx-sm-2">
+			<Col className="text-center cat">
+				<h5>Your Workouts</h5>
+			</Col>
+		</Row>
+		<Row>
+			<Col className="text-center my-auto mb-3">
+				{(props.workouts.length) ? props.workouts.map(workout => {
+					return (
+						<>
+							<Row className="my-4" key={workout._id}>
+								<SavedWorkouts selected={selected} setSelected={setSelected} workouts={props.workouts} setWorkouts={props.setWorkouts} workout={workout}
+									exercises={props.exercises} />
+							</Row>
+							<hr />
+						</>
+					);
+				}) : <div>Create your first workout by using the <span className="title">Save Workout</span> button in <span className="title">Execute</span>.</div>}
+			</Col>
+		</Row>
+		<Row className="mt-1 mx-sm-2">
+			<Col className="text-center cat">
+				<h5>Your Exercises</h5>
+			</Col>
+		</Row>
+		<Row className="mt-3">
+			<Col className="cat mb-3">
+				<h5 className="text-center mb-0">Strength</h5>
+				{props.exercises.filter(exercise => exercise.strengthOrCardio === "strength").map(strengthExercise => {
+					return (
+						<Row className="my-3" key={strengthExercise._id}>
+							<ExerciseList workouts={props.workouts} setWorkouts={props.setWorkouts} selected={selected} setSelected={setSelected} exercises={props.exercises} setExercises={props.setExercises} exercise={strengthExercise} />
+						</Row>
+					);
+				})}
+			</Col>
+			<Col className="cat mb-3">
+				<h5 className="text-center mb-0">Cardio</h5>
+				{props.exercises.filter(exercise => exercise.strengthOrCardio === "cardio").map(cardioExercise => {
+					return (
+						<Row className="my-3" key={cardioExercise._id}>
+							<ExerciseList workouts={props.workouts} setWorkouts={props.setWorkouts} selected={selected} setSelected={setSelected} exercises={props.exercises} setExercises={props.setExercises} exercise={cardioExercise} />
+						</Row>
+					);
+				})}
+			</Col>
+		</Row>
+	</Container>
+	: <h2 className="welcome m-5 text-center">Welcome! Get started by using the <span className="title">Forge</span>.</h2>}
+			
 			<Jumbotron fluid={true}>
 				<Row className="mt-4">
 					<Col xs="12" className="text-center my-2">
@@ -132,7 +135,7 @@ export default function Arsenal(props) {
 							Forge
 						</Button>
 					</Col>
-					<Col className="text-center my-2">
+					<Col className="text-center my-2" hidden={(props.exercises.length) ? false : true}>
 						<Link to="/execute">
 							<Button className="shadow-none" size="lg" color="secondary" outline >
 								Execute

@@ -86,7 +86,7 @@ export default function Execute(props) {
 								return res.json();
 							})
 							.then(archiveData => {
-								props.setArchive([...props.archive, archiveData]);
+								props.setArchive([archiveData, ...props.archive ]);
 								console.log(archiveData);
 								alert('Archive logged.');
 							})

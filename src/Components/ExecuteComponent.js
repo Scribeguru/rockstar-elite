@@ -338,7 +338,7 @@ export default function Execute(props) {
 					</Modal>
 				</> :
 				<Row>
-					<Col xs="12" className="text-center mt-5">
+					<Col xs="12" className="text-center my-4">
 						<h2 className="pt-5 text-center">Select exercise(s) from <span className="title">Arsenal</span>.</h2>
 					</Col>
 					<Col xs="12" className="text-center mt-4">

@@ -15,7 +15,7 @@ export default function Header(props) {
 	function toggleCollapse() {
 		setCollapsed(isCollapsed => isCollapsed = !isCollapsed);
 	}
-console.log(props.archive);
+
 	function currentDate() {
 		let today = new Date();
 		let month = today.getMonth();

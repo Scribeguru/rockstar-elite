@@ -1,5 +1,5 @@
-import { Route, Switch, Redirect } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
+import { Route, Switch, Redirect, Link } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
 import { baseUrl } from '../shared/baseUrl';
 import Login from './LoginComponent';
 import Header from './HeaderComponent';
@@ -16,9 +16,27 @@ export default function Main() {
 	const [userWeight, setUserWeight] = useState([]);
 	const [archive, setArchive] = useState([]);
 
+	const redirectToLogin = useRef();
+
+	function loginRedirect() {
+		redirectToLogin.current.click();
+	}
+
 	useEffect(() => {
 		if (isLoggedIn) {
 			try {
+				fetch(baseUrl + 'users/isLoggedIn', {
+					credentials: 'include'
+				})
+					.then(res => {
+						return res.json();
+					})
+					.then(res => {
+						if (!res) {
+							loginRedirect();
+						}
+					})
+
 				Promise.all([
 					fetch(baseUrl + 'exercises', {
 						credentials: 'include'
@@ -35,9 +53,8 @@ export default function Main() {
 				])
 					.then(res => {
 						return (Promise.all(res.map(response => {
-							console.log(response)
-								return response.json();
-							
+							console.log(response);
+							return response.json();
 						})));
 					})
 					.then(data => {
@@ -64,6 +81,7 @@ export default function Main() {
 
 	return (
 		<>
+			<Link to="/login" ref={redirectToLogin} replace hidden />
 			<Header
 				isLoggedIn={isLoggedIn}
 				userWeight={userWeight}

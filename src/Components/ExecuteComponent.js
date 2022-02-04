@@ -86,7 +86,7 @@ export default function Execute(props) {
 								return res.json();
 							})
 							.then(archiveData => {
-								props.setArchive([archiveData, ...props.archive ]);
+								props.setArchive([archiveData, ...props.archive]);
 								console.log(archiveData);
 								alert('Archive logged.');
 							})
@@ -115,7 +115,7 @@ export default function Execute(props) {
 						return res.json();
 					})
 					.then(archiveData => {
-						props.setArchive([archiveData, ...props.archive ]);
+						props.setArchive([archiveData, ...props.archive]);
 						console.log(archiveData);
 						alert('Archive logged.');
 					});
@@ -170,30 +170,43 @@ export default function Execute(props) {
 		setdragging(true);
 	}
 
-	function handleDragEnter(eIndex) {
-		dragTarget.current = eIndex;
-	}
-
-	function handleDragOver(e) {
+	function handleDragOver(e, eIndex) {
+		dragTarget.current = eIndex
+		if (e.target.classList[0] === "selected") {
+			e.target.className = "selected drag-target col";
+			console.log("1", e.target);
+		}
+		if (e.target.tagName === "EM" || e.target.tagName === "INPUT") {
+			e.target.parentElement.className = "selected drag-target col";
+		}
 		e.preventDefault();
 	}
 
-	function handleDrop() {
-		moveItem(dragExercise.current, dragTarget.current);
+	function handleDragLeave(e, eIndex) {
+		if (e.target.classList[0] === "selected") {
+			e.target.className = "selected col";
+		}
+		if (e.target.tagName === "EM" || e.target.tagName === "INPUT") {
+			e.target.parentElement.className = "selected col";
+		}
 	}
 
-	function handleDragEnd() {
+	function handleDrop(e) {
+		moveItem(dragExercise.current, dragTarget.current);
+		if (e.target.classList[0] === "selected") {
+			e.target.className = "selected col";
+		}
+		if (e.target.tagName === "EM" || e.target.tagName === "INPUT") {
+			e.target.parentElement.className = "selected col";
+		}
+	}
+
+	function handleDragEnd(e) {
 		setdragging(false);
 		dragNode.current.removeEventListener('dragend', handleDragEnd);
 		dragExercise.current = null;
 		dragNode.current = null;
 		dragTarget.current = null;
-	}
-
-	function setStyle(eIndex) {
-		if (eIndex === dragTarget.current) {
-			return 'drag-target selected';
-		} else return 'selected';
 	}
 
 	let mappedSelect = selectArr.map((exercise, eIndex) => (
@@ -202,12 +215,12 @@ export default function Execute(props) {
 			key={exercise.id}
 		>
 			<Col
-				className={dragging ? setStyle(eIndex) : 'selected'}
+				className="selected"
 				draggable
-				onDragStart={(e) => { handleDragStart(e, eIndex) }}
-				onDragEnter={dragging ? (e) => handleDragEnter(eIndex) : null}
-				onDragOver={dragging ? (e) => handleDragOver(e) : null}
-				onDrop={() => { handleDrop() }}
+				onDragStart={e => handleDragStart(e, eIndex)}
+				onDragOver={dragging ? e => handleDragOver(e, eIndex) : null}
+				onDragLeave={dragging ? e => handleDragLeave(e, eIndex) : null}
+				onDrop={e => handleDrop(e)}
 			>
 				<SelectedList exercise={exercise} />
 			</Col>
@@ -270,7 +283,7 @@ export default function Execute(props) {
 								<Col className="text-center mx-5">
 									<Label htmlFor="uWeight">Weigh-in Results:</Label>
 									<Input onKeyDown={e => uWeight(e)} id="uWeight" name="uWeight" placeholder='Enter your weight' />
-										<span className="exercise-name"  onClick={e => toggleMeasurement(e)}>({(isMetric) ? 'kgs' : 'lbs'})</span>
+									<span className="exercise-name" onClick={e => toggleMeasurement(e)}>({(isMetric) ? 'kgs' : 'lbs'})</span>
 								</Col>
 							</Row>
 							<Row className="mt-4">

@@ -4,8 +4,6 @@ import { baseUrl } from '../shared/baseUrl';
 
 export default function Archive({ log, archive, setArchive }) {
 
-  console.log(log);
-
   function formatLog() {
     const trashcan = (
       <i onClick={deleteArchive} className="exercise-option fa fa-lg fa-trash"></i>

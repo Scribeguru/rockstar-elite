@@ -62,7 +62,7 @@ export default function Main() {
 						console.log('exercises: ', data[0]);
 						console.log('workouts: ', data[1]);
 						console.log('userWeight: ', data[2]);
-						console.log('archive: ', data[3].reverse());
+						console.log('archive: ', data[3]);
 
 						setExercises([...data[0]]);
 						setWorkouts([...data[1]]);

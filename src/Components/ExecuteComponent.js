@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Jumbotron, Modal, ModalHeader, ModalBody, Container, Row, Col, Button, Input, Label, Form } from 'reactstrap';
 import { baseUrl } from '../shared/baseUrl';
 import SelectedList from './SelectedListComponent';
+import DragDropTouch from 'svelte-drag-drop-touch';
 
 export default function Execute(props) {
 
@@ -182,7 +183,7 @@ export default function Execute(props) {
 		e.preventDefault();
 	}
 
-	function handleDragLeave(e, eIndex) {
+	function handleDragLeave(e) {
 		if (e.target.classList[0] === "selected") {
 			e.target.className = "selected col";
 		}
@@ -201,12 +202,16 @@ export default function Execute(props) {
 		}
 	}
 
-	function handleDragEnd(e) {
+	function handleDragEnd() {
 		setdragging(false);
 		dragNode.current.removeEventListener('dragend', handleDragEnd);
 		dragExercise.current = null;
 		dragNode.current = null;
 		dragTarget.current = null;
+	}
+
+	function doTheThing() {
+		alert('Ahah yuh!');
 	}
 
 	let mappedSelect = selectArr.map((exercise, eIndex) => (
@@ -219,7 +224,7 @@ export default function Execute(props) {
 				draggable
 				onDragStart={e => handleDragStart(e, eIndex)}
 				onDragOver={dragging ? e => handleDragOver(e, eIndex) : null}
-				onDragLeave={dragging ? e => handleDragLeave(e, eIndex) : null}
+				onDragLeave={dragging ? e => handleDragLeave(e) : null}
 				onDrop={e => handleDrop(e)}
 			>
 				<SelectedList exercise={exercise} />

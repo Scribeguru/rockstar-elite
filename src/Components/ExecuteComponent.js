@@ -177,9 +177,13 @@ export default function Execute(props) {
 			e.target.className = "selected drag-target col";
 			console.log("1", e.target);
 		}
-		if (e.target.tagName === "EM" || e.target.tagName === "INPUT") {
+		if (e.target.tagName === "EM" || e.target.placeholder === "length") {
 			e.target.parentElement.className = "selected drag-target col";
 		}
+		if (e.target.placeholder === "sets" || e.target.placeholder === "reps" || e.target.placeholder === "weight") {
+			e.target.parentElement.parentElement.parentElement.className = "selected drag-target col";
+		}
+		
 		e.preventDefault();
 	}
 
@@ -187,8 +191,11 @@ export default function Execute(props) {
 		if (e.target.classList[0] === "selected") {
 			e.target.className = "selected col";
 		}
-		if (e.target.tagName === "EM" || e.target.tagName === "INPUT") {
+		if (e.target.tagName === "EM" || e.target.placeholder === "length") {
 			e.target.parentElement.className = "selected col";
+		}
+		if (e.target.placeholder === "sets" || e.target.placeholder === "reps" || e.target.placeholder === "weight") {
+			e.target.parentElement.parentElement.parentElement.className = "selected col";
 		}
 	}
 

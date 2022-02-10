@@ -73,7 +73,7 @@ export default function Header(props) {
 						</h5>
 					</Col>
 					<Collapse isOpen={isCollapsed}>
-						{props.archive.map(log => {
+						{(props.archive.length) ? props.archive.map(log => {
 							return (
 								<>
 									<Row key={log._id} className="mb-3">
@@ -82,7 +82,7 @@ export default function Header(props) {
 									<hr />
 								</>
 							);
-						})}
+						}) : <div>Archive your first log by using the <span className="title">Archive Log</span> button in <span className="title">Execute</span>.</div>}
 					</Collapse>
 				</Row>
 			</Container>

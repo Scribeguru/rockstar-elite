@@ -71,6 +71,7 @@ export default function Login(props) {
   }
 
   function validatePasswordMatch(e) {
+    setLoading(false);
     return (e.target[1].value === e.target[2].value) ? true : alert(`Please ensure your passwords match.`);
   }
 

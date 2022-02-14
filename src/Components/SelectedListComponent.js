@@ -5,7 +5,7 @@ export default function SelectedList({ exercise }) {
 
 	function parseType() {
 		const strength = 
-			<Row className="text-center">
+			<Row>
 				<Col>
 					<Input name={exercise.name}  placeholder="sets" />
 				</Col>

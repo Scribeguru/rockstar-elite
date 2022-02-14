@@ -48,7 +48,7 @@ export default function Execute(props) {
 		}).filter(detail => !!detail === true);
 		if (e.target[e.target.length - 5].value) {
 			try {
-				fetch(baseUrl + 'userWeight', {
+				fetch(baseUrl + 'api/userWeight', {
 					method: 'POST',
 					credentials: 'include',
 					headers: {
@@ -68,7 +68,7 @@ export default function Execute(props) {
 						return userWeightData;
 					})
 					.then(userWeightData => {
-						fetch(baseUrl + 'archive', {
+						fetch(baseUrl + 'api/archive', {
 							method: 'POST',
 							credentials: 'include',
 							headers: {
@@ -98,7 +98,7 @@ export default function Execute(props) {
 			}
 		} else {
 			try {
-				fetch(baseUrl + 'archive', {
+				fetch(baseUrl + 'api/archive', {
 					method: 'POST',
 					credentials: 'include',
 					headers: {
@@ -130,7 +130,7 @@ export default function Execute(props) {
 		e.preventDefault();
 
 		try {
-			fetch(baseUrl + 'workouts', {
+			fetch(baseUrl + 'api/workouts', {
 				method: 'POST',
 				credentials: 'include',
 				headers: {

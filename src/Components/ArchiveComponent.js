@@ -67,7 +67,7 @@ export default function Archive({ log, archive, setArchive }) {
 
   function deleteArchive() {
     try {
-      fetch(baseUrl + 'archive/' + log._id, {
+      fetch(baseUrl + 'api/archive/' + log._id, {
         method: 'DELETE',
         credentials: 'include',
         header: {

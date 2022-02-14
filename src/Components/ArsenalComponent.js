@@ -32,7 +32,7 @@ export default function Arsenal(props) {
 		if (eType) {
 			setLoading(true);
 			try {
-				fetch(baseUrl + 'exercises', {
+				fetch(baseUrl + 'api/exercises', {
 					method: 'POST',
 					credentials: 'include',
 					headers: {

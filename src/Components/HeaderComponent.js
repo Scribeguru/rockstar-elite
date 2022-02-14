@@ -38,7 +38,7 @@ export default function Header(props) {
 	}
 
 	function logout() {
-		fetch(baseUrl + 'users/logout', {
+		fetch(baseUrl + 'api/users/logout', {
 			credentials: 'include',
 		});
 	}

@@ -8,7 +8,7 @@ export default function SavedWorkouts({ selected, setSelected, workout, workouts
     let exerciseArr = exercises.map(exercise => exercise.name + exercise.strengthOrCardio);
     if (!workout.exercises.length) {
       try {
-        fetch(baseUrl + 'workouts/' + workout._id, {
+        fetch(baseUrl + 'api/workouts/' + workout._id, {
           method: 'DELETE',
           credentials: 'include',
           headers: {
@@ -66,7 +66,7 @@ export default function SavedWorkouts({ selected, setSelected, workout, workouts
 
   function deleteWorkout() {
     try {
-      fetch(baseUrl + 'workouts/' + workout._id, {
+      fetch(baseUrl + 'api/workouts/' + workout._id, {
         method: 'DELETE',
         credentials: 'include',
         headers: {

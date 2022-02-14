@@ -43,7 +43,7 @@ export default function Login(props) {
   async function handleLoginSubmit(e) {
     e.preventDefault();
     try {
-      fetch(baseUrl + 'users/login', {
+      fetch(baseUrl + 'api/users/login', {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -81,7 +81,7 @@ export default function Login(props) {
     let passwordMatch = await validatePasswordMatch(e);
     if (passwordMatch) {
       try {
-        fetch(baseUrl + 'users/register', {
+        fetch(baseUrl + 'api/users/register', {
           method: 'POST',
           credentials: 'include',
           headers: {
@@ -110,7 +110,7 @@ export default function Login(props) {
   }
 
   function guestLogin() {
-    fetch(baseUrl + 'users/login', {
+    fetch(baseUrl + 'api/users/login', {
       method: 'POST',
       credentials: 'include',
       headers: {

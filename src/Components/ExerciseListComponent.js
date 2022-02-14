@@ -24,7 +24,7 @@ export default function ExerciseList({ workouts, setWorkouts, selected, setSelec
 			alert('The workout(s) containing this exercise will no longer include it.\n\nDeleting the final exercise in a workout will also delete the workout.');
 		}
 		try {
-			fetch(baseUrl + 'exercises/' + exercise._id, {
+			fetch(baseUrl + 'api/exercises/' + exercise._id, {
 				method: 'DELETE',
 				credentials: 'include',
 				headers: {

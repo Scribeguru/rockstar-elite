@@ -25,7 +25,7 @@ export default function Main() {
 	useEffect(() => {
 		if (isLoggedIn) {
 			try {
-				fetch(baseUrl + 'users/isLoggedIn', {
+				fetch(baseUrl + 'api/users/isLoggedIn', {
 					credentials: 'include'
 				})
 					.then(res => {
@@ -38,16 +38,16 @@ export default function Main() {
 					})
 
 				Promise.all([
-					fetch(baseUrl + 'exercises', {
+					fetch(baseUrl + 'api/exercises', {
 						credentials: 'include'
 					}),
-					fetch(baseUrl + 'workouts', {
+					fetch(baseUrl + 'api/workouts', {
 						credentials: 'include'
 					}),
-					fetch(baseUrl + 'userWeight', {
+					fetch(baseUrl + 'api/userWeight', {
 						credentials: 'include'
 					}),
-					fetch(baseUrl + 'archive', {
+					fetch(baseUrl + 'api/archive', {
 						credentials: 'include'
 					})
 				])

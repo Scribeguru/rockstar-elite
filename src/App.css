@@ -158,7 +158,7 @@ word-break: break-word;
 }
 
 .selected .form-control::placeholder {
-    text-align: left;
+    text-align: center;
 }
 
 textarea {

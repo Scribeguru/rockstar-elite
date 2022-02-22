@@ -13,7 +13,7 @@ export default function About() {
 				</Col>
 			</Row>
 			<Row className="mt-5">
-				<Col className="text-center" hidden={(JSON.parse(localStorage.getItem('selected-exercises')).length) ? false : true} >
+				<Col className="text-center" hidden={(JSON.parse(localStorage.getItem('selected-exercises'))) ? false : true} >
 					<Link to="/execute">
 						<Button className="shadow-none" size="lg" color="secondary" outline>
 							Execute

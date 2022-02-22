@@ -18,7 +18,7 @@ body::selection {
 
 .btn {
     border-radius: 0;
-    padding: 0.em;
+    padding: 0.6em;
     color: #dcc371;
     font-family: 'Encode Sans SC', sans-serif;
     text-align: center;

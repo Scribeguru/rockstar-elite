@@ -83,6 +83,33 @@ body::selection {
     color: #eb9181;
 }
 
+.strength-or-cardio {
+    padding-left: 11vw;
+    padding-right: 11vw;
+    background-color: #22242e;
+    border-color: #a54636;
+    border-radius: 0;
+    font-family: 'Nunito', sans-serif;
+    text-align: center;
+    color: #ed674e;
+}
+
+.strength-or-cardio:focus {
+    background-color: #22242e;
+    color: #ed674e;
+    border-color: #ed674e;
+    box-shadow: none;
+    outline: none;
+}
+
+.strength-or-cardio:hover {
+    background-color: #22242e;
+    color: #ed674e;
+    border-color: #ed674e;
+    box-shadow: none;
+    outline: none;
+}
+
 .form-control, textarea {
     background-color: #22242e;
     border-color: #a54636;

@@ -162,13 +162,13 @@ export default function Arsenal(props) {
 											<Label htmlFor="exerciseType" className="mt-3 mb-2 title">Assign Type:</Label>
 										</Col>
 										<Col>
-											<Button value="strength" className="mb-2 strength-or-cardio" id="strengthExercise"
-												name="exerciseType" onFocus={e => { e.target.checked = true; e.target.form[2].checked = false }}>Strength</Button>
+											<input type="button" value="strength" className="mb-2 strength-or-cardio" id="strengthExercise"
+												name="exerciseType" onFocus={e => { e.target.checked = true; e.target.form[2].checked = false }} />
 										</Col>
 										<span>or</span>
 										<Col>
-											<Button value="cardio" className="mt-2 strength-or-cardio" id="cardioExercise"
-												name="exerciseType" onFocus={e => { e.target.checked = true; e.target.form[1].checked = false; }}>Cardio</Button>
+											<input type="button" value="cardio" className="mt-2 strength-or-cardio" id="cardioExercise"
+												name="exerciseType" onFocus={e => { e.target.checked = true; e.target.form[1].checked = false; }} />
 										</Col>
 									</Row>
 									<Button type="submit" className="mt-5 mb-3 shadow-none" size="lg" color="secondary" outline>

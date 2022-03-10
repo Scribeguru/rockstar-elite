@@ -4269,10 +4269,10 @@ dotenv@8.2.0:
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
   integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
 
-dragdroptouch-bug-fixed@^1.0.8:
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/dragdroptouch-bug-fixed/-/dragdroptouch-bug-fixed-1.0.8.tgz#9da55cdd4360a905d782c94f44a2f6df6bd9b780"
-  integrity sha512-moNgBeWMeUk4zhV3B+a4TZUPmHVJz+cvjWEXENLEU3toVnm3lpS+ZkSwVbBxArDUQ8HSm1qA0UmKWWy1y7nvng==
+drag-drop-touch-polyfill-es5-compiled@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/drag-drop-touch-polyfill-es5-compiled/-/drag-drop-touch-polyfill-es5-compiled-1.0.0.tgz#54d1835e073a5d0eba87cab113ddac23170b9d52"
+  integrity sha512-30Oa6COSQJj2+B0OAXBU/EfXGurdHWWYE1BPgIF6JCFsgtcDHDqBlfAh8COR8CZNT/b6cDXrU0n3qDehKkFtFQ==
 
 duplexer@^0.1.1:
   version "0.1.2"
@@ -10798,13 +10798,6 @@ supports-hyperlinks@^2.0.0:
   dependencies:
     has-flag "^4.0.0"
     supports-color "^7.0.0"
-
-svelte-drag-drop-touch@^0.1.9:
-  version "0.1.9"
-  resolved "https://registry.yarnpkg.com/svelte-drag-drop-touch/-/svelte-drag-drop-touch-0.1.9.tgz#eff2dccbdfdb56d3a165fdbd813d04bce87a392c"
-  integrity sha512-DWAMC+6xBRkl5OuVR7ze+znSKERlX9t9cx4/kzoWOnPwLFvv4g8YTtQxmO8wfWfETi9qgg/cnw58gmhZKY9vyw==
-  dependencies:
-    dragdroptouch-bug-fixed "^1.0.8"
 
 svg-parser@^2.0.2:
   version "2.0.4"

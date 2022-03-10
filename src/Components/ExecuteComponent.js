@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Jumbotron, Modal, ModalHeader, ModalBody, Container, Row, Col, Button, Input, Label, Form } from 'reactstrap';
 import { baseUrl } from '../shared/baseUrl';
 import SelectedList from './SelectedListComponent';
-import DragDropTouch from 'svelte-drag-drop-touch';
+import DragDropTouch from 'drag-drop-touch-polyfill-es5-compiled';
 
 export default function Execute(props) {
 
@@ -204,8 +204,11 @@ export default function Execute(props) {
 		if (e.target.classList[0] === "selected") {
 			e.target.className = "selected col";
 		}
-		if (e.target.tagName === "EM" || e.target.tagName === "INPUT") {
+		if (e.target.tagName === "EM" || e.target.placeholder === "length") {
 			e.target.parentElement.className = "selected col";
+		}
+		if (e.target.placeholder === "sets" || e.target.placeholder === "reps" || e.target.placeholder === "weight") {
+			e.target.parentElement.parentElement.parentElement.className = "selected col";
 		}
 	}
 

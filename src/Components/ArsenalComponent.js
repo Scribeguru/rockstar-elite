@@ -174,7 +174,6 @@ export default function Arsenal(props) {
 									<Button type="submit" className="mt-5 mb-3 shadow-none" size="lg" color="secondary" outline>
 										Finish
 									</Button>
-
 								</Container>
 							</Form>
 							{(isLoading) ? loading : null}

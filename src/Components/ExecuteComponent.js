@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Jumbotron, Modal, ModalHeader, ModalBody, Container, Row, Col, Button, Input, Label, Form } from 'reactstrap';
 import { baseUrl } from '../shared/baseUrl';
 import SelectedList from './SelectedListComponent';
-import DragDropTouch from 'drag-drop-touch-polyfill-es5-compiled';
+import DragDropTouch from 'drag-drop-touch';
 
 export default function Execute(props) {
 
@@ -175,7 +175,6 @@ export default function Execute(props) {
 		dragTarget.current = eIndex
 		if (e.target.classList[0] === "selected") {
 			e.target.className = "selected drag-target col";
-			console.log("1", e.target);
 		}
 		if (e.target.tagName === "EM" || e.target.placeholder === "length") {
 			e.target.parentElement.className = "selected drag-target col";
@@ -219,9 +218,8 @@ export default function Execute(props) {
 		dragNode.current = null;
 		dragTarget.current = null;
 	}
-
-	function doTheThing() {
-		alert('Ahah yuh!');
+	function touchInputFocus(e) {
+		e.target.focus();
 	}
 
 	let mappedSelect = selectArr.map((exercise, eIndex) => (
@@ -230,6 +228,7 @@ export default function Execute(props) {
 			key={exercise.id}
 		>
 			<Col
+				onDoubleClick={e => touchInputFocus(e)}
 				className="selected"
 				draggable
 				onDragStart={e => handleDragStart(e, eIndex)}

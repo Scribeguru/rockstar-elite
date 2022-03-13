@@ -89,7 +89,7 @@ export default function Execute(props) {
 							.then(archiveData => {
 								props.setArchive([archiveData, ...props.archive]);
 								console.log(archiveData);
-								alert('Archive logged.');
+								alert('Log archived.');
 							})
 					});
 			}
@@ -218,6 +218,7 @@ export default function Execute(props) {
 		dragNode.current = null;
 		dragTarget.current = null;
 	}
+	
 	function touchInputFocus(e) {
 		e.target.focus();
 	}

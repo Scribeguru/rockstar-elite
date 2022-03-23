@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { Row, Col } from 'reactstrap';
 import { baseUrl } from '../shared/baseUrl';
 
@@ -24,7 +23,7 @@ export default function Archive({ log, archive, setArchive }) {
       let detailType = Object.keys(detail[Object.keys(detail)]);
       let detailTypeVal = detailType.map(key => detail[Object.keys(detail)][key]);
       let formattedDetails = (
-        <Col sm="1">
+        <Col sm="2">
           <span className="title">{exercise}</span><br />
 
           {detailType.map(type => {

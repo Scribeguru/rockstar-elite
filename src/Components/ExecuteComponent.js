@@ -225,7 +225,7 @@ export default function Execute(props) {
 
 	let mappedSelect = selectArr.map((exercise, eIndex) => (
 		<Row
-			className="my-3"
+			className="mb-4"
 			xs="12"
 			key={exercise.id}
 		>

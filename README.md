@@ -1,5 +1,5 @@
 <h2>Rockstar Elite Client</h2><br>
-<h3>User facing subset of personal workout assembling application Rockstar Elite</h3>
+<h3>User-facing end of personal workout assembling application, Rockstar Elite</h3>
 <h3>-Built with React, uses reactstrap, react-router, and drag-drop-touch. Features include:</h3>
 <ul>
   <li>Full responsivity</li>

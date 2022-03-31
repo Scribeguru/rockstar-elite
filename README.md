@@ -2,7 +2,7 @@
 <h3>User facing subset of personal workout assembling application Rockstar Elite</h3>
 <h3>-Built with React, uses reactstrap, react-router, and drag-drop-touch. Features include:</h3>
 <ul>
-  <li>Fully responsive</li>
+  <li>Full responsivity</li>
   <li>Dynamic messages to ease user-navigation</li>
   <li>Create strength and cardio exercises</li>
   <li>Compile a list of exercises and save them as a workout</li>

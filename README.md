@@ -11,6 +11,8 @@
   <li>Displays today's date</li>
   <li>Bodyweight "as of submitted date" is displayed, and updates each time a new archive with bodyweight data is submitted</li>
   <li>User redirected to login page if attempt to access a path like /arsenal or /execute before logging in</li>
+  <li>Exercises in execute can be dragged into desired order</li>
+  <li>Preffered weight measurement (metric vs imperial), as well as all data on execute page, is persisted through localstorage until logout</li>
 </ul>
 
 <h1>Try it out at <a href="https://rockstarelite.xyz" target="_blank">rockstarelite.xyz</a></h1>

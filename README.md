@@ -1,6 +1,6 @@
 <h2>Rockstar Elite Client</h2><br>
 <h3><u>Description</u></h3>
-<h4>User-facing end of personal workout assembling application, Rockstar Elite. Built with React, uses reactstrap, react-router, and drag-drop-touch. Deployed on AWS EC2 instance.</h4>
+<h4>User-facing end of workout assembling application, Rockstar Elite. Built with React, uses reactstrap, react-router, and drag-drop-touch. Deployed on AWS EC2 instance.</h4>
 <h3><u>Features</u></h3>
 <ul>
   <li>Full responsivity</li>
